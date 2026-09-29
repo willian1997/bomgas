@@ -283,19 +283,10 @@ function confirmarPedido() {
 
 
     /*
-     * SALVA O PEDIDO NO HISTÓRICO
+     * SALVA O PEDIDO NA API
      */
 
-    const pedidos = JSON.parse(
-        localStorage.getItem("pedidosBomGas")
-    ) || [];
-
-
     const novoPedido = {
-
-        numero: pedidos.length + 1,
-
-        data: new Date().toLocaleString("pt-BR"),
 
         cliente: nome,
 
@@ -311,67 +302,77 @@ function confirmarPedido() {
 
         produtos: carrinho,
 
-        total: total,
-
-        status: "Em preparação"
+        total: total
 
     };
 
 
-    pedidos.push(novoPedido);
+    fetch("/api/pedidos/", {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json"
+        },
+        body: JSON.stringify(novoPedido)
+    })
+        .then(response => {
+            if (!response.ok) {
+                throw new Error("Erro na requisição da API");
+            }
+            return response.json();
+        })
+        .then(data => {
+
+            alert(
+                "PEDIDO CONFIRMADO!\n\n" +
+
+                "Cliente: " + nome + "\n" +
+
+                "Telefone: " + telefone + "\n\n" +
+
+                "PRODUTOS:\n" +
+
+                resumo +
+
+                "\nTotal: R$ " +
+
+                total.toFixed(2).replace(".", ",") +
+
+                "\n\nENTREGA:\n" +
+
+                endereco + ", " +
+
+                numero +
+
+                " - " +
+
+                bairro +
+
+                (
+                    observacao.trim() !== ""
+                        ? "\nObservação: " + observacao
+                        : ""
+                )
+            );
 
 
-    localStorage.setItem(
-        "pedidosBomGas",
-        JSON.stringify(pedidos)
-    );
+            /*
+             * LIMPA O CARRINHO
+             */
+
+            localStorage.removeItem("carrinhoBomGas");
 
 
-    alert(
-        "PEDIDO CONFIRMADO!\n\n" +
+            /*
+             * VOLTA PARA A PÁGINA INICIAL
+             */
 
-        "Cliente: " + nome + "\n" +
+            window.location.href = "/";
 
-        "Telefone: " + telefone + "\n\n" +
-
-        "PRODUTOS:\n" +
-
-        resumo +
-
-        "\nTotal: R$ " +
-
-        total.toFixed(2).replace(".", ",") +
-
-        "\n\nENTREGA:\n" +
-
-        endereco + ", " +
-
-        numero +
-
-        " - " +
-
-        bairro +
-
-        (
-            observacao.trim() !== ""
-                ? "\nObservação: " + observacao
-                : ""
-        )
-    );
-
-
-    /*
-     * LIMPA O CARRINHO
-     */
-
-    localStorage.removeItem("carrinhoBomGas");
-
-
-    /*
-     * VOLTA PARA A PÁGINA INICIAL
-     */
-
-    window.location.href = "/";
+        })
+        .catch(error => {
+            alert("Ocorreu um erro ao confirmar o seu pedido. Tente novamente.");
+            console.error("Erro ao enviar pedido para o back-end:", error);
+        });
 
 }
 
@@ -409,138 +410,142 @@ function carregarPedidos() {
         return;
     }
 
-    const pedidos = JSON.parse(
-        localStorage.getItem("pedidosBomGas")
-    ) || [];
+    fetch("/api/pedidos/")
+        .then(response => response.json())
+        .then(pedidos => {
 
-    if (pedidos.length === 0) {
+            if (!pedidos || pedidos.length === 0) {
 
-        lista.innerHTML = `
-            <div class="sem-pedidos">
-                <p>📋 Você ainda não possui pedidos.</p>
-                <a href="/produtos/">Fazer um pedido</a>
-            </div>
-        `;
+                lista.innerHTML = `
+                    <div class="sem-pedidos">
+                        <p>📋 Você ainda não possui pedidos.</p>
+                        <a href="/produtos/">Fazer um pedido</a>
+                    </div>
+                `;
 
-        return;
-    }
+                return;
+            }
 
-    lista.innerHTML = "";
+            lista.innerHTML = "";
 
-    pedidos.slice().reverse().forEach(pedido => {
+            pedidos.forEach(pedido => {
 
-        const card = document.createElement("div");
+                const card = document.createElement("div");
 
-        card.className = "card-pedido";
+                card.className = "card-pedido";
 
-        let produtosHTML = "";
+                let produtosHTML = "";
 
-        pedido.produtos.forEach(item => {
+                pedido.produtos.forEach(item => {
 
-            produtosHTML += `
-                <p>
-                    ${item.quantidade}x ${item.nome}
-                </p>
-            `;
+                    produtosHTML += `
+                        <p>
+                            ${item.quantidade}x ${item.nome}
+                        </p>
+                    `;
 
-        });
+                });
 
-        card.innerHTML = `
+                card.innerHTML = `
 
-            <div class="pedido-topo">
+                    <div class="pedido-topo">
 
-                <h2>
-                    Pedido #${String(pedido.numero).padStart(3, "0")}
-                </h2>
+                        <h2>
+                            Pedido #${String(pedido.numero).padStart(3, "0")}
+                        </h2>
 
-                <span class="status pedido-andamento">
-                    ${pedido.status}
-                </span>
+                        <span class="status pedido-andamento">
+                            ${pedido.status}
+                        </span>
 
-            </div>
-
-
-            <p class="data-pedido">
-                📅 ${pedido.data}
-            </p>
+                    </div>
 
 
-            <div class="itens-pedido">
-
-                ${produtosHTML}
-
-            </div>
+                    <p class="data-pedido">
+                        📅 ${pedido.data}
+                    </p>
 
 
-            <div class="pedido-total">
+                    <div class="itens-pedido">
 
-                <strong>
-                    Total: R$ ${pedido.total
+                        ${produtosHTML}
+
+                    </div>
+
+
+                    <div class="pedido-total">
+
+                        <strong>
+                            Total: R$ ${Number(pedido.total)
                         .toFixed(2)
                         .replace(".", ",")}
-                </strong>
+                        </strong>
 
-            </div>
-
-
-            <button
-                type="button"
-                class="btn-detalhes"
-                onclick="mostrarDetalhes(this)">
-
-                Ver detalhes
-
-            </button>
+                    </div>
 
 
-            <div class="detalhes-pedido">
+                    <button
+                        type="button"
+                        class="btn-detalhes"
+                        onclick="mostrarDetalhes(this)">
 
-                <p>
-                    <strong>Cliente:</strong>
-                    ${pedido.cliente}
-                </p>
+                        Ver detalhes
 
-                <p>
-                    <strong>Telefone:</strong>
-                    ${pedido.telefone}
-                </p>
+                    </button>
 
-                <p>
-                    <strong>Endereço:</strong>
-                    ${pedido.endereco},
-                    ${pedido.numeroEndereco}
-                    - ${pedido.bairro}
-                </p>
 
-                <p>
-                    <strong>Pagamento:</strong>
-                    Não informado
-                </p>
+                    <div class="detalhes-pedido">
 
-                ${
-                    pedido.observacao &&
-                    pedido.observacao.trim() !== ""
-                    ?
-                    `<p>
-                        <strong>Observação:</strong>
-                        ${pedido.observacao}
-                    </p>`
-                    :
-                    ""
-                }
+                        <p>
+                            <strong>Cliente:</strong>
+                            ${pedido.cliente}
+                        </p>
 
-                <p>
-                    <strong>Status:</strong>
-                    ${pedido.status}
-                </p>
+                        <p>
+                            <strong>Telefone:</strong>
+                            ${pedido.telefone}
+                        </p>
 
-            </div>
+                        <p>
+                            <strong>Endereço:</strong>
+                            ${pedido.endereco},
+                            ${pedido.numeroEndereco}
+                            - ${pedido.bairro}
+                        </p>
 
-        `;
+                        <p>
+                            <strong>Pagamento:</strong>
+                            Não informado
+                        </p>
 
-        lista.appendChild(card);
+                        ${pedido.observacao &&
+                        pedido.observacao.trim() !== ""
+                        ?
+                        `<p>
+                                <strong>Observação:</strong>
+                                ${pedido.observacao}
+                            </p>`
+                        :
+                        ""
+                    }
 
-    });
+                        <p>
+                            <strong>Status:</strong>
+                            ${pedido.status}
+                        </p>
+
+                    </div>
+
+                `;
+
+                lista.appendChild(card);
+
+            });
+
+        })
+        .catch(error => {
+            console.error("Erro ao carregar pedidos da API:", error);
+        });
 
 }
 

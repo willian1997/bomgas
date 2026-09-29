@@ -27,3 +27,11 @@ Thumbs.db
 # Arquivos temporários
 *.tmp
 *.temp
+
+# Bancos de dados
+db.sqlite3
+
+# Bancos de dados
+*.sqlite3
+*.sqlite3-journal
+.db.sqlite3*
