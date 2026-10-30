@@ -445,3 +445,14 @@
 .timeline-item.completed::after {
     background: #86efac;
 }
+
+.timeline-item.cancelled .timeline-icon {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+.order-status.cancelled {
+    background: #fee2e2;
+    color: #dc2626;
+}
+

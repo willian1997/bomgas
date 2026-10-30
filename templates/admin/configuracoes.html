@@ -1,0 +1,229 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Configurações - BomGás</title>
+
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}?v=3">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body>
+
+    <div class="admin-container">
+
+        <!-- MENU LATERAL -->
+        <aside class="sidebar">
+
+            <div class="sidebar-logo">
+                <img src="{% static 'images/image.png' %}" alt="BomGás">
+            </div>
+
+            <div class="admin-info">
+                <div class="admin-avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
+
+                <div>
+                    <strong>Administrador</strong>
+                    <span>Painel BomGás</span>
+                </div>
+            </div>
+
+            <nav class="sidebar-menu">
+
+                <a href="{% url 'admin_dashboard' %}" class="menu-item">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
+
+                <a href="{% url 'admin_pedidos' %}" class="menu-item">
+                    <i class="fa-solid fa-box"></i>
+                    <span>Pedidos</span>
+                    <span class="menu-badge" id="badge-pedidos">{{ pendentes|default:0 }}</span>
+                </a>
+
+                <a href="{% url 'admin_produtos' %}" class="menu-item">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Produtos</span>
+                </a>
+
+                <a href="{% url 'admin_clientes' %}" class="menu-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clientes</span>
+                </a>
+
+                <a href="{% url 'admin_configuracoes' %}" class="menu-item active">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Configurações</span>
+                </a>
+
+            </nav>
+
+            <div class="sidebar-bottom">
+
+                <a href="{% url 'sair' %}" class="menu-item logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Sair</span>
+                </a>
+
+            </div>
+
+        </aside>
+
+
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="main-content">
+
+            <header class="topbar">
+
+                <div class="topbar-title">
+                    <button class="mobile-menu" type="button" aria-label="Abrir menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+                    <div>
+                        <h1>Configurações</h1>
+                        <p>Gerencie a segurança do acesso administrativo</p>
+                    </div>
+                </div>
+
+                <div class="topbar-actions">
+
+                    <button class="notification-button" type="button" aria-label="Notificações">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <div class="topbar-user">
+                        <div class="user-avatar">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+
+                        <div class="topbar-user-info">
+                            <strong>Administrador</strong>
+                            <span>Online</span>
+                        </div>
+                    </div>
+
+                </div>
+
+            </header>
+
+
+            <section class="dashboard-content">
+
+                <div class="settings-wrapper">
+
+                    <section class="panel-card settings-card">
+
+                        <div class="panel-header">
+                            <div class="settings-header-title">
+                                <div class="stat-icon blue">
+                                    <i class="fa-solid fa-lock"></i>
+                                </div>
+                                <div>
+                                    <h3>Alterar senha do administrador</h3>
+                                    <p>Usuário conectado: <strong>{{ request.user.username }}</strong></p>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="settings-body">
+
+                            {% if sucesso %}
+                            <div class="settings-alert success">
+                                <i class="fa-solid fa-circle-check"></i>
+                                <span>{{ sucesso }}</span>
+                            </div>
+                            {% endif %}
+
+                            {% if erro %}
+                            <div class="settings-alert error">
+                                <i class="fa-solid fa-circle-exclamation"></i>
+                                <span>{{ erro }}</span>
+                            </div>
+                            {% endif %}
+
+                            <form method="post" action="{% url 'admin_configuracoes' %}" class="settings-form">
+                                {% csrf_token %}
+
+                                <div class="settings-field">
+                                    <label for="senha_atual">Senha atual</label>
+                                    <input
+                                        type="password"
+                                        id="senha_atual"
+                                        name="senha_atual"
+                                        placeholder="Digite sua senha atual"
+                                        autocomplete="current-password"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="settings-field">
+                                    <label for="nova_senha">Nova senha</label>
+                                    <input
+                                        type="password"
+                                        id="nova_senha"
+                                        name="nova_senha"
+                                        placeholder="Digite a nova senha"
+                                        minlength="4"
+                                        autocomplete="new-password"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="settings-field">
+                                    <label for="confirmar_senha">Confirmar nova senha</label>
+                                    <input
+                                        type="password"
+                                        id="confirmar_senha"
+                                        name="confirmar_senha"
+                                        placeholder="Repita a nova senha"
+                                        minlength="4"
+                                        autocomplete="new-password"
+                                        required
+                                    >
+                                </div>
+
+                                <div class="settings-actions">
+                                    <button type="submit" class="btn-settings-save">
+                                        <i class="fa-solid fa-key"></i>
+                                        Salvar nova senha
+                                    </button>
+                                </div>
+                            </form>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const btnMenuMobile = document.querySelector(".mobile-menu");
+            const sidebar = document.querySelector(".sidebar");
+            if (btnMenuMobile && sidebar) {
+                btnMenuMobile.addEventListener("click", function () {
+                    sidebar.classList.toggle("open");
+                });
+            }
+        });
+    </script>
+
+</body>
+
+</html>
+

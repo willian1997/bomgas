@@ -2,13 +2,14 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
     <title>BomGás</title>
 
-    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=3">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
@@ -16,46 +17,60 @@
 
     <header class="cabecalho">
         <div class="logo">
-           <img src="/static/images/image.png" width="200" height="70" alt="Logo">
+            <img src="{% static 'images/image.png' %}" width="200" height="70" alt="Logo">
         </div>
 
-       <nav>
-    <a href="/">
-        <i class="fa-solid fa-house"></i>
-        Início
-    </a>
+        <nav>
+            <a href="{% url 'inicio' %}">
+                <i class="fa-solid fa-house"></i>
+                Início
+            </a>
 
-    <a href="/produtos/">
-        <i class="fa-solid fa-fire-flame-simple"></i>
-        Produtos
-    </a>
+            <a href="{% url 'produtos' %}">
+                <i class="fa-solid fa-fire-flame-simple"></i>
+                Produtos
+            </a>
 
-    <a href="/carrinho/" class="carrinho">
-        <i class="fa-solid fa-cart-shopping"></i>
-        Meu Pedido
-        <span id="contador-carrinho">0</span>
-    </a>
+            <a href="{% url 'carrinho' %}" class="carrinho">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Meu Pedido
+                <span id="contador-carrinho">0</span>
+            </a>
 
-    <a href="/meus_pedidos.html">
-        <i class="fa-solid fa-clipboard-list"></i>
-        Meus Pedidos
-    </a>
+            <a href="{% url 'meus_pedidos' %}">
+                <i class="fa-solid fa-clipboard-list"></i>
+                Meus Pedidos
+            </a>
 
-    <a href="#">
-        <i class="fa-solid fa-user"></i>
-        Entrar
-    </a>
-</nav>
+            {% if cliente_sessao %}
+            <a href="{% url 'sair' %}" class="usuario-sessao">
+                <i class="fa-solid fa-user"></i>
+                Olá, {{ cliente_sessao.primeiro_nome }} (Sair)
+            </a>
+            {% else %}
+            <a href="{% url 'entrar' %}">
+                <i class="fa-solid fa-user"></i>
+                Entrar
+            </a>
+            {% endif %}
+        </nav>
     </header>
 
 
     <main>
 
-        <section class="banner">
-            <div class="banner-conteudo">
-              
-                <a href="produtos"><button>Fazer pedido</button></a>
-
+        <section class="banner-secao">
+            <div class="banner">
+                <img src="{% static 'images/banner-bomgas.png' %}" alt="BomGás - Gás, água e carvão na sua porta"
+                    class="banner-img">
+                <div class="banner-conteudo">
+                    <a href="{% url 'produtos' %}" class="banner-link-pedido">
+                        <button type="button">
+                            <i class="fa-solid fa-cart-shopping"></i>
+                            Fazer pedido
+                        </button>
+                    </a>
+                </div>
             </div>
         </section>
 
@@ -69,21 +84,21 @@
                 <div class="produto">
                     <h3>🔥 Gás</h3>
                     <p>Botijão de gás para sua casa.</p>
-                    <img src="/static/images/botijao2.webp"width="200" height="200  " alt="botijao">
+                    <img src="{% static 'images/botijao2.webp' %}" width="200" height="200" alt="botijao">
                     <p><strong>Gás GLP 13kg</strong></p>
                 </div>
 
                 <div class="produto">
                     <h3>💧 Água</h3>
                     <p>Água mineral para sua família.</p>
-                    <img src="/static/images/agua.webp"width="300" height="200  " alt="agua">
-                    <p><strong>Aguá Mineral 20L</strong></p>
+                    <img src="{% static 'images/agua.webp' %}" width="300" height="200" alt="agua">
+                    <p><strong>Água Mineral 20L</strong></p>
                 </div>
 
                 <div class="produto">
                     <h3>🪵 Carvão</h3>
                     <p>Carvão para seu churrasco.</p>
-                    <img src="/static/images/carvao.webp"width="200" height="200  " alt="carvao">
+                    <img src="{% static 'images/carvao.webp' %}" width="200" height="200" alt="carvao">
                     <p><strong>Carvão 10kg</strong></p>
                 </div>
 
@@ -98,5 +113,8 @@
         <p>© 2026 BomGás - Gás, água e carvão na sua porta.</p>
     </footer>
 
+    <script src="{% static 'js/script.js' %}"></script>
+
 </body>
+
 </html>

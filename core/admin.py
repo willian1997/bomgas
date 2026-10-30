@@ -9,8 +9,8 @@ class ItemPedidoInline(admin.TabularInline):
 
 @admin.register(Produto)
 class ProdutoAdmin(admin.ModelAdmin):
-    list_display = ("nome", "preco", "disponivel")
-    list_filter = ("disponivel",)
+    list_display = ("nome", "categoria", "preco", "disponivel")
+    list_filter = ("categoria", "disponivel")
     search_fields = ("nome",)
 
 

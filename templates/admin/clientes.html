@@ -42,7 +42,12 @@
         <a href="{% url 'admin_pedidos' %}" class="menu-item">
             <i class="fa-solid fa-box"></i>
             <span>Pedidos</span>
-            <span class="menu-badge">3</span>
+            <span class="menu-badge" id="badge-pedidos">0</span>
+        </a>
+
+        <a href="{% url 'admin_produtos' %}" class="menu-item">
+            <i class="fa-solid fa-cart-shopping"></i>
+            <span>Produtos</span>
         </a>
 
         <a href="{% url 'admin_clientes' %}" class="menu-item active">
@@ -50,17 +55,7 @@
             <span>Clientes</span>
         </a>
 
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-cart-shopping"></i>
-            <span>Produtos</span>
-        </a>
-
-        <a href="#" class="menu-item">
-            <i class="fa-solid fa-chart-line"></i>
-            <span>Relatórios</span>
-        </a>
-
-        <a href="#" class="menu-item">
+        <a href="{% url 'admin_configuracoes' %}" class="menu-item">
             <i class="fa-solid fa-gear"></i>
             <span>Configurações</span>
         </a>
@@ -68,7 +63,7 @@
     </nav>
 
     <div class="sidebar-bottom">
-        <a href="{% url 'inicio' %}" class="menu-item logout">
+        <a href="{% url 'sair' %}" class="menu-item logout">
             <i class="fa-solid fa-right-from-bracket"></i>
             <span>Sair</span>
         </a>
@@ -104,7 +99,7 @@
                     <p>Visualize os dados e o histórico dos clientes.</p>
                 </div>
 
-                <span class="clients-count">4 clientes encontrados</span>
+                <span class="clients-count" id="contador-clientes">0 clientes encontrados</span>
             </div>
 
             <div class="clients-stats">
@@ -115,7 +110,7 @@
                     </div>
                     <div>
                         <p>Total de clientes</p>
-                        <h3>4</h3>
+                        <h3 id="total-clientes">0</h3>
                     </div>
                 </div>
 
@@ -125,7 +120,7 @@
                     </div>
                     <div>
                         <p>Pedidos realizados</p>
-                        <h3>8</h3>
+                        <h3 id="total-pedidos-realizados">0</h3>
                     </div>
                 </div>
 
@@ -135,7 +130,7 @@
                     </div>
                     <div>
                         <p>Clientes sem pedidos</p>
-                        <h3>1</h3>
+                        <h3 id="total-sem-pedidos">0</h3>
                     </div>
                 </div>
 
@@ -147,11 +142,12 @@
                     <input
                         type="text"
                         id="buscar-cliente"
+                        name="busca"
                         placeholder="Buscar por nome ou telefone..."
                     >
                 </div>
 
-                <select id="filtro-clientes">
+                <select id="filtro-clientes" name="filtro">
                     <option value="todos">Todos os clientes</option>
                     <option value="com-pedidos">Com pedidos</option>
                     <option value="sem-pedidos">Sem pedidos</option>
@@ -167,171 +163,10 @@
 
                 <div class="clients-table-header">
                     <h3>Lista de clientes</h3>
-                    <span>Dados demonstrativos</span>
+                    <span>Clientes dos pedidos realizados</span>
                 </div>
 
-                <div class="clients-table">
-
-                    <div class="client-row"
-                         data-nome="João da Silva"
-                         data-telefone="(14) 99999-9999"
-                         data-pedidos="3">
-
-                        <div class="client-identity">
-                            <div class="client-avatar avatar-blue">JS</div>
-                            <div>
-                                <strong>João da Silva</strong>
-                                <span>Cliente #001</span>
-                            </div>
-                        </div>
-
-                        <div class="client-phone">
-                            <span class="mobile-label">Telefone</span>
-                            <span>(14) 99999-9999</span>
-                        </div>
-
-                        <div class="client-address">
-                            <span class="mobile-label">Endereço</span>
-                            <span>Rua das Flores, 123</span>
-                            <small>Centro</small>
-                        </div>
-
-                        <div class="client-orders">
-                            <span class="mobile-label">Pedidos</span>
-                            <strong>3 pedidos</strong>
-                        </div>
-
-                        <div class="client-actions">
-                            <button type="button"
-                                    class="btn-cliente-detalhes"
-                                    title="Ver detalhes"
-                                    aria-label="Ver detalhes de João da Silva">
-                                <i class="fa-solid fa-eye"></i>
-                                Detalhes
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="client-row"
-                         data-nome="Maria Oliveira"
-                         data-telefone="(14) 98888-8888"
-                         data-pedidos="2">
-
-                        <div class="client-identity">
-                            <div class="client-avatar avatar-orange">MO</div>
-                            <div>
-                                <strong>Maria Oliveira</strong>
-                                <span>Cliente #002</span>
-                            </div>
-                        </div>
-
-                        <div class="client-phone">
-                            <span class="mobile-label">Telefone</span>
-                            <span>(14) 98888-8888</span>
-                        </div>
-
-                        <div class="client-address">
-                            <span class="mobile-label">Endereço</span>
-                            <span>Avenida Brasil, 456</span>
-                            <small>Vila Nova</small>
-                        </div>
-
-                        <div class="client-orders">
-                            <span class="mobile-label">Pedidos</span>
-                            <strong>2 pedidos</strong>
-                        </div>
-
-                        <div class="client-actions">
-                            <button type="button"
-                                    class="btn-cliente-detalhes"
-                                    title="Ver detalhes"
-                                    aria-label="Ver detalhes de Maria Oliveira">
-                                <i class="fa-solid fa-eye"></i>
-                                Detalhes
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="client-row"
-                         data-nome="Carlos Santos"
-                         data-telefone="(14) 97777-7777"
-                         data-pedidos="3">
-
-                        <div class="client-identity">
-                            <div class="client-avatar avatar-green">CS</div>
-                            <div>
-                                <strong>Carlos Santos</strong>
-                                <span>Cliente #003</span>
-                            </div>
-                        </div>
-
-                        <div class="client-phone">
-                            <span class="mobile-label">Telefone</span>
-                            <span>(14) 97777-7777</span>
-                        </div>
-
-                        <div class="client-address">
-                            <span class="mobile-label">Endereço</span>
-                            <span>Rua São Pedro, 789</span>
-                            <small>Jardim América</small>
-                        </div>
-
-                        <div class="client-orders">
-                            <span class="mobile-label">Pedidos</span>
-                            <strong>3 pedidos</strong>
-                        </div>
-
-                        <div class="client-actions">
-                            <button type="button"
-                                    class="btn-cliente-detalhes"
-                                    title="Ver detalhes"
-                                    aria-label="Ver detalhes de Carlos Santos">
-                                <i class="fa-solid fa-eye"></i>
-                                Detalhes
-                            </button>
-                        </div>
-                    </div>
-
-                    <div class="client-row"
-                         data-nome="Ana Costa"
-                         data-telefone="(14) 96666-6666"
-                         data-pedidos="0">
-
-                        <div class="client-identity">
-                            <div class="client-avatar avatar-purple">AC</div>
-                            <div>
-                                <strong>Ana Costa</strong>
-                                <span>Cliente #004</span>
-                            </div>
-                        </div>
-
-                        <div class="client-phone">
-                            <span class="mobile-label">Telefone</span>
-                            <span>(14) 96666-6666</span>
-                        </div>
-
-                        <div class="client-address">
-                            <span class="mobile-label">Endereço</span>
-                            <span>Rua das Palmeiras, 50</span>
-                            <small>Centro</small>
-                        </div>
-
-                        <div class="client-orders">
-                            <span class="mobile-label">Pedidos</span>
-                            <strong>0 pedidos</strong>
-                        </div>
-
-                        <div class="client-actions">
-                            <button type="button"
-                                    class="btn-cliente-detalhes"
-                                    title="Ver detalhes"
-                                    aria-label="Ver detalhes de Ana Costa">
-                                <i class="fa-solid fa-eye"></i>
-                                Detalhes
-                            </button>
-                        </div>
-                    </div>
-
+                <div class="clients-table" id="lista-clientes">
                 </div>
 
                 <div class="no-clients" id="nenhum-cliente" hidden>
@@ -341,8 +176,8 @@
                 </div>
 
                 <div class="clients-table-footer">
-                    <span id="texto-resultados">Mostrando 4 clientes</span>
-                    <span>Lista demonstrativa</span>
+                    <span id="texto-resultados">Mostrando 0 clientes</span>
+                    <span>Dados do banco de dados</span>
                 </div>
 
             </div>
@@ -412,69 +247,6 @@
 
     </div>
 </div>
-```html
-<!-- Modal de detalhes do cliente -->
-<div class="client-modal-overlay" id="modal-cliente" hidden>
-    <div class="client-modal" role="dialog" aria-modal="true"
-         aria-labelledby="modal-titulo-cliente">
-
-        <div class="client-modal-header">
-            <div>
-                <span class="modal-subtitle">CADASTRO DO CLIENTE</span>
-                <h2 id="modal-titulo-cliente">Detalhes do cliente</h2>
-            </div>
-
-            <button type="button" class="btn-fechar-modal"
-                    id="fechar-modal-cliente" aria-label="Fechar">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-
-        <div class="client-modal-body">
-            <div class="modal-client-profile">
-                <div class="client-avatar avatar-blue" id="modal-avatar-cliente">CL</div>
-                <div>
-                    <h3 id="modal-nome-cliente">Nome do cliente</h3>
-                    <span id="modal-id-cliente">Cliente cadastrado</span>
-                </div>
-            </div>
-
-            <div class="modal-info-grid">
-                <div class="modal-info-item">
-                    <span><i class="fa-solid fa-phone"></i> Telefone</span>
-                    <strong id="modal-telefone-cliente">—</strong>
-                </div>
-
-                <div class="modal-info-item">
-                    <span><i class="fa-solid fa-location-dot"></i> Endereço</span>
-                    <strong id="modal-endereco-cliente">—</strong>
-                </div>
-
-                <div class="modal-info-item">
-                    <span><i class="fa-solid fa-box"></i> Total de pedidos</span>
-                    <strong id="modal-pedidos-cliente">0 pedidos</strong>
-                </div>
-            </div>
-
-            <div class="modal-history">
-                <h3><i class="fa-solid fa-clock-rotate-left"></i> Histórico de pedidos</h3>
-
-                <div id="modal-historico-cliente">
-                    <!-- O JavaScript preencherá esta área -->
-                </div>
-            </div>
-        </div>
-
-        <div class="client-modal-footer">
-            <button type="button" class="btn-modal-fechar"
-                    id="fechar-modal-secundario">
-                Fechar
-            </button>
-        </div>
-
-    </div>
-</div>
-
 <script src="{% static 'js/clientes.js' %}"></script>
 </body>
 </html>

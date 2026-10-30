@@ -1,9 +1,19 @@
+from decimal import Decimal
 from django.db import models
 
 
 class Produto(models.Model):
 
+    CATEGORIA_CHOICES = [
+        ("gas", "Gás"),
+        ("agua", "Água"),
+        ("carvao", "Carvão"),
+    ]
+
     nome = models.CharField(max_length=100)
+    categoria = models.CharField(
+        max_length=20, choices=CATEGORIA_CHOICES, default="gas"
+    )
     descricao = models.TextField(blank=True, null=True)
     preco = models.DecimalField(max_digits=10, decimal_places=2)
     disponivel = models.BooleanField(default=True)
@@ -14,6 +24,11 @@ class Produto(models.Model):
 
     def __str__(self):
         return f"{self.nome} - R$ {self.preco}"
+
+    @property
+    def preco_br(self):
+        valor = self.preco if self.preco is not None else Decimal("0.00")
+        return f"{valor:.2f}".replace(".", ",")
 
 
 class Pedido(models.Model):
@@ -67,7 +82,9 @@ class ItemPedido(models.Model):
 
     @property
     def subtotal(self):
-        return self.preco_unitario * self.quantidade
+        preco = self.preco_unitario if self.preco_unitario is not None else Decimal("0.00")
+        qtd = self.quantidade if self.quantidade is not None else 0
+        return preco * qtd
 
     def __str__(self):
         return f"{self.quantidade}x {self.nome_produto} (Pedido #{self.pedido.id:03d})"

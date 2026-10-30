@@ -168,6 +168,10 @@
     gap: 22px;
 }
 
+.product-card[hidden] {
+    display: none !important;
+}
+
 .product-card {
     min-width: 0;
     overflow: hidden;
@@ -472,4 +476,56 @@
 .btn-product-delete:hover {
     background: #dc2626;
     color: #ffffff;
+}
+
+/* Formulário de cadastro e edição */
+
+.product-modal-body label {
+    display: block;
+    margin: 14px 0 6px;
+    color: #172b4d;
+    font-size: 13px;
+    font-weight: 600;
+}
+
+.product-modal-body label:first-child {
+    margin-top: 6px;
+}
+
+.product-modal-body input,
+.product-modal-body select,
+.product-modal-body textarea {
+    width: 100%;
+    box-sizing: border-box;
+    padding: 11px 13px;
+    border: 1px solid #d8deea;
+    border-radius: 9px;
+    background: #fff;
+    color: #172b4d;
+    font: inherit;
+    font-size: 14px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.product-modal-body textarea {
+    resize: vertical;
+    min-height: 80px;
+}
+
+.product-modal-body input:focus,
+.product-modal-body select:focus,
+.product-modal-body textarea:focus {
+    outline: none;
+    border-color: #1261d8;
+    box-shadow: 0 0 0 3px rgba(18, 97, 216, 0.15);
+}
+
+.product-modal-footer {
+    gap: 10px;
+}
+
+#cancelar-form-produto,
+#fechar-modal-produto-secundario {
+    background: #f1f3f7;
+    color: #536078;
 }

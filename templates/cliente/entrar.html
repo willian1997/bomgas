@@ -1,0 +1,239 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Entrar - BomGás</title>
+
+    <link rel="stylesheet" href="{% static 'css/style.css' %}?v=2">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+</head>
+
+<body class="pagina-login">
+
+    <header class="cabecalho">
+        <div class="logo">
+            <img src="{% static 'images/image.png' %}" width="200" height="70" alt="Logo">
+        </div>
+
+        <nav>
+            <a href="{% url 'inicio' %}">
+                <i class="fa-solid fa-house"></i>
+                Início
+            </a>
+
+            <a href="{% url 'produtos' %}">
+                <i class="fa-solid fa-fire-flame-simple"></i>
+                Produtos
+            </a>
+
+            <a href="{% url 'carrinho' %}" class="carrinho">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Meu Pedido
+                <span id="contador-carrinho">0</span>
+            </a>
+
+            <a href="{% url 'meus_pedidos' %}">
+                <i class="fa-solid fa-clipboard-list"></i>
+                Meus Pedidos
+            </a>
+
+            {% if cliente_sessao %}
+            <a href="{% url 'sair' %}" class="usuario-sessao">
+                <i class="fa-solid fa-user"></i>
+                Olá, {{ cliente_sessao.primeiro_nome }} (Sair)
+            </a>
+            {% else %}
+            <a href="{% url 'entrar' %}">
+                <i class="fa-solid fa-user"></i>
+                Entrar
+            </a>
+            {% endif %}
+        </nav>
+    </header>
+
+
+    <main>
+
+        <section class="login-container">
+
+            <h1>Identifique-se</h1>
+            <p>Escolha como deseja acessar o BomGás.</p>
+
+            <div class="login-abas" role="tablist" aria-label="Tipo de acesso">
+                <button
+                    type="button"
+                    class="login-aba-btn {% if aba_ativa != 'admin' %}ativa{% endif %}"
+                    id="tab-btn-cliente"
+                    role="tab"
+                    aria-selected="{% if aba_ativa != 'admin' %}true{% else %}false{% endif %}"
+                    onclick="selecionarAbaLogin('cliente')">
+                    <i class="fa-solid fa-user"></i>
+                    Sou Cliente
+                </button>
+
+                <button
+                    type="button"
+                    class="login-aba-btn {% if aba_ativa == 'admin' %}ativa{% endif %}"
+                    id="tab-btn-admin"
+                    role="tab"
+                    aria-selected="{% if aba_ativa == 'admin' %}true{% else %}false{% endif %}"
+                    onclick="selecionarAbaLogin('admin')">
+                    <i class="fa-solid fa-user-shield"></i>
+                    Administrador
+                </button>
+            </div>
+
+            <!-- ABA: SOU CLIENTE -->
+            <div
+                id="painel-login-cliente"
+                class="login-painel"
+                {% if aba_ativa == 'admin' %}hidden{% endif %}>
+
+                <p class="login-descricao">
+                    Digite apenas o seu telefone para carregar seus dados de entrega automaticamente.
+                </p>
+
+                {% if erro_cliente %}
+                <div class="login-alerta erro">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>{{ erro_cliente }}</span>
+                </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'entrar' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="tipo_login" value="cliente">
+                    <input type="hidden" name="next" value="{{ next_url|default:'' }}">
+
+                    <div class="campo">
+                        <label for="telefone-login">Telefone</label>
+                        <input
+                            type="tel"
+                            id="telefone-login"
+                            name="telefone"
+                            placeholder="(00) 00000-0000"
+                            value="{{ telefone_informado|default:'' }}"
+                            autocomplete="tel"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="btn-finalizar">
+                        Entrar
+                    </button>
+                </form>
+            </div>
+
+            <!-- ABA: ADMINISTRADOR -->
+            <div
+                id="painel-login-admin"
+                class="login-painel"
+                {% if aba_ativa != 'admin' %}hidden{% endif %}>
+
+                <p class="login-descricao">
+                    Informe suas credenciais para acessar o painel administrativo.
+                </p>
+
+                {% if erro_admin %}
+                <div class="login-alerta erro">
+                    <i class="fa-solid fa-circle-exclamation"></i>
+                    <span>{{ erro_admin }}</span>
+                </div>
+                {% endif %}
+
+                <form method="post" action="{% url 'entrar' %}">
+                    {% csrf_token %}
+                    <input type="hidden" name="tipo_login" value="admin">
+                    <input type="hidden" name="next" value="{{ next_url|default:'' }}">
+
+                    <div class="campo">
+                        <label for="usuario-admin">Usuário</label>
+                        <input
+                            type="text"
+                            id="usuario-admin"
+                            name="usuario"
+                            placeholder="Digite seu usuário"
+                            value="{{ usuario_informado|default:'' }}"
+                            autocomplete="username"
+                            required
+                        >
+                    </div>
+
+                    <div class="campo">
+                        <label for="senha-admin">Senha</label>
+                        <input
+                            type="password"
+                            id="senha-admin"
+                            name="senha"
+                            placeholder="Digite sua senha"
+                            autocomplete="current-password"
+                            required
+                        >
+                    </div>
+
+                    <button type="submit" class="btn-finalizar">
+                        Acessar Painel
+                    </button>
+                </form>
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <footer>
+        <p>© 2026 BomGás - Gás, água e carvão na sua porta.</p>
+    </footer>
+
+    <script src="{% static 'js/script.js' %}"></script>
+    <script>
+        function selecionarAbaLogin(aba) {
+            const btnCliente = document.getElementById("tab-btn-cliente");
+            const btnAdmin = document.getElementById("tab-btn-admin");
+            const painelCliente = document.getElementById("painel-login-cliente");
+            const painelAdmin = document.getElementById("painel-login-admin");
+
+            const ehAdmin = aba === "admin";
+            btnCliente.classList.toggle("ativa", !ehAdmin);
+            btnAdmin.classList.toggle("ativa", ehAdmin);
+            btnCliente.setAttribute("aria-selected", String(!ehAdmin));
+            btnAdmin.setAttribute("aria-selected", String(ehAdmin));
+
+            painelCliente.hidden = ehAdmin;
+            painelAdmin.hidden = !ehAdmin;
+
+            if (ehAdmin) {
+                document.getElementById("usuario-admin").focus();
+            } else {
+                document.getElementById("telefone-login").focus();
+            }
+        }
+
+        (function () {
+            const campoTel = document.getElementById("telefone-login");
+            if (!campoTel) return;
+
+            campoTel.addEventListener("input", function () {
+                const d = campoTel.value.replace(/\D/g, "").slice(0, 11);
+                if (d.length <= 2) {
+                    campoTel.value = d;
+                } else if (d.length <= 6) {
+                    campoTel.value = "(" + d.slice(0, 2) + ") " + d.slice(2);
+                } else if (d.length <= 10) {
+                    campoTel.value = "(" + d.slice(0, 2) + ") " + d.slice(2, 6) + "-" + d.slice(6);
+                } else {
+                    campoTel.value = "(" + d.slice(0, 2) + ") " + d.slice(2, 7) + "-" + d.slice(7);
+                }
+            });
+        })();
+    </script>
+
+</body>
+</html>
+

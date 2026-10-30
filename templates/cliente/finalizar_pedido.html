@@ -10,10 +10,6 @@
     <title>Finalizar Pedido - BomGás</title>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-</head>
-
-<body>
-
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
@@ -21,38 +17,44 @@
 
     <header class="cabecalho">
         <div class="logo">
-           <img src="/static/images/image.png" width="200" height="70" alt="Logo">
+            <img src="{% static 'images/image.png' %}" width="200" height="70" alt="Logo">
         </div>
 
-       <nav>
-    <a href="/">
-        <i class="fa-solid fa-house"></i>
-        Início
-    </a>
+        <nav>
+            <a href="{% url 'inicio' %}">
+                <i class="fa-solid fa-house"></i>
+                Início
+            </a>
 
-    <a href="/produtos/">
-        <i class="fa-solid fa-fire-flame-simple"></i>
-        Produtos
-    </a>
+            <a href="{% url 'produtos' %}">
+                <i class="fa-solid fa-fire-flame-simple"></i>
+                Produtos
+            </a>
 
-    <a href="/carrinho/" class="carrinho">
-        <i class="fa-solid fa-cart-shopping"></i>
-        Meu Pedido
-        <span id="contador-carrinho">0</span>
-    </a>
+            <a href="{% url 'carrinho' %}" class="carrinho">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Meu Pedido
+                <span id="contador-carrinho">0</span>
+            </a>
 
-    <a href="/meus_pedidos.html">
-        <i class="fa-solid fa-clipboard-list"></i>
-        Meus Pedidos
-    </a>
+            <a href="{% url 'meus_pedidos' %}">
+                <i class="fa-solid fa-clipboard-list"></i>
+                Meus Pedidos
+            </a>
 
-    <a href="#">
-        <i class="fa-solid fa-user"></i>
-        Entrar
-    </a>
-</nav>
+            {% if cliente_sessao %}
+            <a href="{% url 'sair' %}" class="usuario-sessao">
+                <i class="fa-solid fa-user"></i>
+                Olá, {{ cliente_sessao.primeiro_nome }} (Sair)
+            </a>
+            {% else %}
+            <a href="{% url 'entrar' %}">
+                <i class="fa-solid fa-user"></i>
+                Entrar
+            </a>
+            {% endif %}
+        </nav>
     </header>
-
 
 
     <main>
@@ -64,7 +66,7 @@
             <p>Preencha seus dados para receber o pedido.</p>
 
 
-            <form onsubmit="event.preventDefault(); confirmarPedido();">
+            <form id="form-finalizar-pedido" onsubmit="event.preventDefault(); confirmarPedido();">
 
                 <div class="campo">
 
@@ -72,13 +74,8 @@
                         Nome completo
                     </label>
 
-                    <input
-                        type="text"
-                        id="nome"
-                        name="nome"
-                        placeholder="Digite seu nome"
-                        required
-                    >
+                    <input type="text" id="nome" name="cliente" placeholder="Digite seu nome"
+                        value="{{ cliente_sessao.nome|default:'' }}" required>
 
                 </div>
 
@@ -89,13 +86,8 @@
                         Telefone
                     </label>
 
-                    <input
-                        type="tel"
-                        id="telefone"
-                        name="telefone"
-                        placeholder="(00) 00000-0000"
-                        required
-                    >
+                    <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000"
+                        value="{{ cliente_sessao.telefone|default:'' }}" required>
 
                 </div>
 
@@ -106,13 +98,8 @@
                         Endereço
                     </label>
 
-                    <input
-                        type="text"
-                        id="endereco"
-                        name="endereco"
-                        placeholder="Rua, Avenida..."
-                        required
-                    >
+                    <input type="text" id="endereco" name="endereco" placeholder="Rua, Avenida..."
+                        value="{{ cliente_sessao.endereco|default:'' }}" required>
 
                 </div>
 
@@ -125,13 +112,8 @@
                             Número
                         </label>
 
-                        <input
-                            type="text"
-                            id="numero"
-                            name="numero"
-                            placeholder="Número"
-                            required
-                        >
+                        <input type="text" id="numero" name="numero_endereco" placeholder="Número"
+                            value="{{ cliente_sessao.numero_endereco|default:'' }}" required>
 
                     </div>
 
@@ -142,13 +124,8 @@
                             Bairro
                         </label>
 
-                        <input
-                            type="text"
-                            id="bairro"
-                            name="bairro"
-                            placeholder="Bairro"
-                            required
-                        >
+                        <input type="text" id="bairro" name="bairro" placeholder="Bairro"
+                            value="{{ cliente_sessao.bairro|default:'' }}" required>
 
                     </div>
 
@@ -161,19 +138,13 @@
                         Observação
                     </label>
 
-                    <textarea
-                        id="observacao"
-                        name="observacao"
-                        placeholder="Alguma informação para a entrega?"
-                        rows="4"
-                    ></textarea>
+                    <textarea id="observacao" name="observacao" placeholder="Alguma informação para a entrega?"
+                        rows="4"></textarea>
 
                 </div>
 
 
-                <button
-                    type="submit"
-                    class="btn-finalizar">
+                <button type="submit" class="btn-finalizar">
                     Confirmar pedido
                 </button>
 
@@ -183,13 +154,12 @@
 
     </main>
 
+    <footer>
+        <p>© 2026 BomGás - Gás, água e carvão na sua porta.</p>
+    </footer>
 
-</footer>
-
-<script src="{% static 'js/script.js' %}"></script>
+    <script src="{% static 'js/script.js' %}"></script>
 
 </body>
-
-
 
 </html>

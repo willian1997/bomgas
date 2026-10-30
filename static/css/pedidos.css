@@ -149,6 +149,10 @@
     transition: background 0.2s ease;
 }
 
+.order-row[hidden] {
+    display: none !important;
+}
+
 .order-row:last-child {
     border-bottom: none;
 }
@@ -243,6 +247,12 @@
     color: #16834b;
 }
 
+.order-status.cancelled {
+    background: #fee2e2;
+    color: #dc2626;
+}
+
+
 
 /* AÇÃO */
 
@@ -277,7 +287,7 @@
 
 .order-action button i {
     font-size: 12px;
-}   
+}
 
 .order-action button:hover {
     background: #0c10f3;
@@ -388,4 +398,13 @@
 .orders-count span {
     font-size: 12px;
     font-weight: 600;
+}
+
+
+.orders-empty {
+    padding: 40px 20px;
+    text-align: center;
+    color: #778196;
+    font-size: 14px;
+    background: #ffffff;
 }

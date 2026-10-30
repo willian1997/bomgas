@@ -8,324 +8,323 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-```
-<title>Dashboard - BomGás</title>
 
-<link rel="stylesheet" href="{% static 'css/admin.css' %}">
+    <title>Dashboard - BomGás</title>
 
-<!-- Font Awesome -->
-<link rel="stylesheet"
-    href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
-```
+    <link rel="stylesheet" href="{% static 'css/admin.css' %}?v=2">
+    <link rel="stylesheet" href="{% static 'css/pedidos.css' %}?v=2">
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+
 
 </head>
 
 <body>
 
-```
-<div class="admin-container">
 
-    <!-- MENU LATERAL -->
-    <aside class="sidebar">
+    <div class="admin-container">
 
-        <div class="sidebar-logo">
-            <img src="{% static 'images/image.png' %}" alt="BomGás">
-        </div>
+        <!-- MENU LATERAL -->
+        <aside class="sidebar">
 
-        <div class="admin-info">
-            <div class="admin-avatar">
-                <i class="fa-solid fa-user"></i>
+            <div class="sidebar-logo">
+                <img src="{% static 'images/image.png' %}" alt="BomGás">
             </div>
 
-            <div>
-                <strong>Administrador</strong>
-                <span>Painel BomGás</span>
-            </div>
-        </div>
-
-        <nav class="sidebar-menu">
-
-            <a href="#" class="menu-item active">
-                <i class="fa-solid fa-house"></i>
-                <span>Dashboard</span>
-            </a>
-
-            <a href="#" class="menu-item">
-                <i class="fa-solid fa-box"></i>
-                <span>Pedidos</span>
-                <span class="menu-badge">0</span>
-            </a>
-
-            <a href="#" class="menu-item">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span>Produtos</span>
-            </a>
-
-            <a href="#" class="menu-item">
-                <i class="fa-solid fa-users"></i>
-                <span>Clientes</span>
-            </a>
-
-            <a href="#" class="menu-item">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Relatórios</span>
-            </a>
-
-            <a href="#" class="menu-item">
-                <i class="fa-solid fa-gear"></i>
-                <span>Configurações</span>
-            </a>
-
-        </nav>
-
-        <div class="sidebar-bottom">
-
-            <a href="#" class="menu-item logout">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Sair</span>
-            </a>
-
-        </div>
-
-    </aside>
-
-
-    <!-- CONTEÚDO PRINCIPAL -->
-    <main class="main-content">
-
-        <!-- TOPO -->
-        <header class="topbar">
-
-            <div class="topbar-title">
-                <button class="mobile-menu" type="button">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
+            <div class="admin-info">
+                <div class="admin-avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
 
                 <div>
-                    <h1>Dashboard</h1>
-                    <p>Visão geral do seu negócio</p>
+                    <strong>Administrador</strong>
+                    <span>Painel BomGás</span>
                 </div>
             </div>
 
-            <div class="topbar-actions">
+            <nav class="sidebar-menu">
 
-                <button class="notification-button" type="button">
-                    <i class="fa-regular fa-bell"></i>
-                    <span class="notification-dot"></span>
-                </button>
+                <a href="{% url 'admin_dashboard' %}" class="menu-item active">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
 
-                <div class="topbar-user">
-                    <div class="user-avatar">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
+                <a href="{% url 'admin_pedidos' %}" class="menu-item">
+                    <i class="fa-solid fa-box"></i>
+                    <span>Pedidos</span>
+                    <span class="menu-badge" id="badge-pedidos">0</span>
+                </a>
 
-                    <div class="topbar-user-info">
-                        <strong>Administrador</strong>
-                        <span>Online</span>
-                    </div>
-                </div>
+                <a href="{% url 'admin_produtos' %}" class="menu-item">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Produtos</span>
+                </a>
 
-            </div>
+                <a href="{% url 'admin_clientes' %}" class="menu-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clientes</span>
+                </a>
 
-        </header>
+                <a href="{% url 'admin_configuracoes' %}" class="menu-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Configurações</span>
+                </a>
 
+            </nav>
 
-        <!-- CONTEÚDO -->
-        <section class="dashboard-content">
+            <div class="sidebar-bottom">
 
-            <div class="welcome-box">
-                <div>
-                    <span class="welcome-label">PAINEL ADMINISTRATIVO</span>
-
-                    <h2>Olá, administrador! 👋</h2>
-
-                    <p>
-                        Acompanhe os pedidos e gerencie o BomGás
-                        por aqui.
-                    </p>
-                </div>
-
-                <div class="welcome-icon">
-                    <i class="fa-solid fa-fire-flame-simple"></i>
-                </div>
-            </div>
-
-
-            <!-- CARDS -->
-            <div class="stats-grid">
-
-                <div class="stat-card">
-
-                    <div class="stat-icon blue">
-                        <i class="fa-solid fa-box"></i>
-                    </div>
-
-                    <div class="stat-info">
-                        <span>Pedidos</span>
-                        <strong>0</strong>
-                        <small>Pedidos registrados</small>
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div class="stat-icon orange">
-                        <i class="fa-solid fa-truck"></i>
-                    </div>
-
-                    <div class="stat-info">
-                        <span>Em andamento</span>
-                        <strong>0</strong>
-                        <small>Pedidos em andamento</small>
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div class="stat-icon green">
-                        <i class="fa-solid fa-circle-check"></i>
-                    </div>
-
-                    <div class="stat-info">
-                        <span>Entregues</span>
-                        <strong>0</strong>
-                        <small>Pedidos entregues</small>
-                    </div>
-
-                </div>
-
-
-                <div class="stat-card">
-
-                    <div class="stat-icon purple">
-                        <i class="fa-solid fa-users"></i>
-                    </div>
-
-                    <div class="stat-info">
-                        <span>Clientes</span>
-                        <strong>0</strong>
-                        <small>Clientes cadastrados</small>
-                    </div>
-
-                </div>
+                <a href="{% url 'sair' %}" class="menu-item logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Sair</span>
+                </a>
 
             </div>
 
+        </aside>
 
-            <!-- ÁREA INFERIOR -->
-            <div class="dashboard-grid">
 
-                <!-- PEDIDOS RECENTES -->
-                <section class="panel-card orders-panel">
+        <!-- CONTEÚDO PRINCIPAL -->
+        <main class="main-content">
 
-                    <div class="panel-header">
+            <!-- TOPO -->
+            <header class="topbar">
 
-                        <div>
-                            <h3>Pedidos recentes</h3>
-                            <p>Últimos pedidos recebidos</p>
+                <div class="topbar-title">
+                    <button class="mobile-menu" type="button">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
+
+                    <div>
+                        <h1>Dashboard</h1>
+                        <p>Visão geral do seu negócio</p>
+                    </div>
+                </div>
+
+                <div class="topbar-actions">
+
+                    <button class="notification-button" type="button">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <div class="topbar-user">
+                        <div class="user-avatar">
+                            <i class="fa-solid fa-user"></i>
                         </div>
 
-                        <a href="#" class="view-all">
-                            Ver todos
-                            <i class="fa-solid fa-arrow-right"></i>
-                        </a>
-
+                        <div class="topbar-user-info">
+                            <strong>Administrador</strong>
+                            <span>Online</span>
+                        </div>
                     </div>
 
+                </div>
 
-                    <div class="empty-orders">
+            </header>
 
-                        <div class="empty-icon">
-                            <i class="fa-solid fa-box-open"></i>
-                        </div>
 
-                        <h4>Nenhum pedido ainda</h4>
+            <!-- CONTEÚDO -->
+            <section class="dashboard-content">
+
+                <div class="welcome-box">
+                    <div>
+                        <span class="welcome-label">PAINEL ADMINISTRATIVO</span>
+
+                        <h2>Olá, administrador! 👋</h2>
 
                         <p>
-                            Quando novos pedidos forem realizados,
-                            eles aparecerão aqui.
+                            Acompanhe os pedidos e gerencie o BomGás
+                            por aqui.
                         </p>
-
                     </div>
 
-                </section>
+                    <div class="welcome-icon">
+                        <i class="fa-solid fa-fire-flame-simple"></i>
+                    </div>
+                </div>
 
 
-                <!-- ACESSO RÁPIDO -->
-                <section class="panel-card quick-panel">
+                <!-- CARDS -->
+                <div class="stats-grid">
 
-                    <div class="panel-header">
+                    <div class="stat-card">
 
-                        <div>
-                            <h3>Acesso rápido</h3>
-                            <p>Principais funções</p>
+                        <div class="stat-icon blue">
+                            <i class="fa-solid fa-box"></i>
+                        </div>
+
+                        <div class="stat-info">
+                            <span>Pedidos</span>
+                            <strong id="stat-total-pedidos">0</strong>
+                            <small>Pedidos registrados</small>
                         </div>
 
                     </div>
 
 
-                    <div class="quick-actions">
+                    <div class="stat-card">
 
-                        <a href="#" class="quick-action">
-                            <div class="quick-icon blue">
-                                <i class="fa-solid fa-box"></i>
-                            </div>
+                        <div class="stat-icon orange">
+                            <i class="fa-solid fa-truck"></i>
+                        </div>
 
-                            <div>
-                                <strong>Pedidos</strong>
-                                <span>Gerenciar pedidos</span>
-                            </div>
-
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </a>
-
-
-                        <a href="#" class="quick-action">
-                            <div class="quick-icon orange">
-                                <i class="fa-solid fa-cart-shopping"></i>
-                            </div>
-
-                            <div>
-                                <strong>Produtos</strong>
-                                <span>Gerenciar produtos</span>
-                            </div>
-
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </a>
-
-
-                        <a href="#" class="quick-action">
-                            <div class="quick-icon purple">
-                                <i class="fa-solid fa-users"></i>
-                            </div>
-
-                            <div>
-                                <strong>Clientes</strong>
-                                <span>Ver clientes</span>
-                            </div>
-
-                            <i class="fa-solid fa-chevron-right"></i>
-                        </a>
+                        <div class="stat-info">
+                            <span>Em andamento</span>
+                            <strong id="stat-em-andamento">0</strong>
+                            <small>Pedidos em andamento</small>
+                        </div>
 
                     </div>
 
-                </section>
 
-            </div>
+                    <div class="stat-card">
 
-        </section>
+                        <div class="stat-icon green">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
 
-    </main>
+                        <div class="stat-info">
+                            <span>Entregues</span>
+                            <strong id="stat-entregues">0</strong>
+                            <small>Pedidos entregues</small>
+                        </div>
 
-</div>
+                    </div>
+
+
+                    <div class="stat-card">
+
+                        <div class="stat-icon purple">
+                            <i class="fa-solid fa-users"></i>
+                        </div>
+
+                        <div class="stat-info">
+                            <span>Clientes</span>
+                            <strong id="stat-total-clientes">0</strong>
+                            <small>Clientes cadastrados</small>
+                        </div>
+
+                    </div>
+
+                </div>
+
+
+                <!-- ÁREA INFERIOR -->
+                <div class="dashboard-grid">
+
+                    <!-- PEDIDOS RECENTES -->
+                    <section class="panel-card orders-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>Pedidos recentes</h3>
+                                <p>Últimos pedidos recebidos</p>
+                            </div>
+
+                            <a href="{% url 'admin_pedidos' %}" class="view-all">
+                                Ver todos
+                                <i class="fa-solid fa-arrow-right"></i>
+                            </a>
+
+                        </div>
+
+
+                        <div class="recent-orders-list" id="lista-pedidos-recentes" hidden>
+                        </div>
+
+                        <div class="empty-orders" id="pedidos-recentes-vazio">
+
+                            <div class="empty-icon">
+                                <i class="fa-solid fa-box-open"></i>
+                            </div>
+
+                            <h4>Nenhum pedido ainda</h4>
+
+                            <p>
+                                Quando novos pedidos forem realizados,
+                                eles aparecerão aqui.
+                            </p>
+
+                        </div>
+
+                    </section>
+
+
+                    <!-- ACESSO RÁPIDO -->
+                    <section class="panel-card quick-panel">
+
+                        <div class="panel-header">
+
+                            <div>
+                                <h3>Acesso rápido</h3>
+                                <p>Principais funções</p>
+                            </div>
+
+                        </div>
+
+
+                        <div class="quick-actions">
+
+                            <a href="{% url 'admin_pedidos' %}" class="quick-action">
+                                <div class="quick-icon blue">
+                                    <i class="fa-solid fa-box"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Pedidos</strong>
+                                    <span>Gerenciar pedidos</span>
+                                </div>
+
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+
+
+                            <a href="{% url 'admin_produtos' %}" class="quick-action">
+                                <div class="quick-icon orange">
+                                    <i class="fa-solid fa-cart-shopping"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Produtos</strong>
+                                    <span>Gerenciar produtos</span>
+                                </div>
+
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+
+
+                            <a href="{% url 'admin_clientes' %}" class="quick-action">
+                                <div class="quick-icon purple">
+                                    <i class="fa-solid fa-users"></i>
+                                </div>
+
+                                <div>
+                                    <strong>Clientes</strong>
+                                    <span>Ver clientes</span>
+                                </div>
+
+                                <i class="fa-solid fa-chevron-right"></i>
+                            </a>
+
+                        </div>
+
+                    </section>
+
+                </div>
+
+            </section>
+
+        </main>
+
+    </div>
 
 
 
 
+    <script src="{% static 'js/dashboard.js' %}?v=2"></script>
 </body>
 
 </html>

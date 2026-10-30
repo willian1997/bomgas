@@ -13,8 +13,7 @@
     <link rel="stylesheet" href="{% static 'css/pedidos.css' %}">
     <link rel="stylesheet" href="{% static 'css/detalhes-pedido.css' %}">
 
-    <link rel="stylesheet"
-        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
@@ -37,7 +36,7 @@
 
                 <div>
                     <strong>Administrador</strong>
-                    <span>Administrador</span>
+                    <span>Painel BomGás</span>
                 </div>
 
             </div>
@@ -45,41 +44,36 @@
             <nav class="sidebar-menu">
 
                 <a href="{% url 'admin_dashboard' %}" class="menu-item">
-                    <i class="fa-solid fa-chart-line"></i>
+                    <i class="fa-solid fa-house"></i>
                     <span>Dashboard</span>
                 </a>
 
                 <a href="{% url 'admin_pedidos' %}" class="menu-item active">
                     <i class="fa-solid fa-box"></i>
                     <span>Pedidos</span>
-                    <span class="menu-badge">3</span>
+                    <span class="menu-badge" id="badge-pedidos">0</span>
                 </a>
 
-                <a href="#" class="menu-item">
+                <a href="{% url 'admin_produtos' %}" class="menu-item">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Produtos</span>
+                </a>
+
+                <a href="{% url 'admin_clientes' %}" class="menu-item">
                     <i class="fa-solid fa-users"></i>
                     <span>Clientes</span>
                 </a>
 
-                <a href="#" class="menu-item">
-                    <i class="fa-solid fa-boxes-stacked"></i>
-                    <span>Produtos</span>
-                </a>
-
-                <a href="#" class="menu-item">
-                    <i class="fa-solid fa-chart-column"></i>
-                    <span>Financeiro</span>
+                <a href="{% url 'admin_configuracoes' %}" class="menu-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Configurações</span>
                 </a>
 
             </nav>
 
             <div class="sidebar-bottom">
 
-                <a href="#" class="menu-item">
-                    <i class="fa-solid fa-gear"></i>
-                    <span>Configurações</span>
-                </a>
-
-                <a href="#" class="menu-item logout">
+                <a href="{% url 'sair' %}" class="menu-item logout">
                     <i class="fa-solid fa-right-from-bracket"></i>
                     <span>Sair</span>
                 </a>
@@ -143,13 +137,13 @@
 
                             <div>
                                 <span>Pedido</span>
-                                <h2>#001</h2>
+                                <h2 id="detalhe-numero-pedido">---</h2>
                             </div>
 
                         </div>
 
-                        <span class="order-status preparing">
-                            Em preparação
+                        <span class="order-status" id="detalhe-status-topo">
+                            ---
                         </span>
 
                     </div>
@@ -176,12 +170,12 @@
 
                                 <div>
                                     <span>Nome</span>
-                                    <strong>João da Silva</strong>
+                                    <strong id="detalhe-cliente-nome">---</strong>
                                 </div>
 
                                 <div>
                                     <span>Telefone</span>
-                                    <strong>(14) 99999-9999</strong>
+                                    <strong id="detalhe-cliente-telefone">---</strong>
                                 </div>
 
                             </div>
@@ -206,12 +200,12 @@
 
                                 <div>
                                     <span>Endereço</span>
-                                    <strong>Rua das Flores, 123</strong>
+                                    <strong id="detalhe-endereco">---</strong>
                                 </div>
 
                                 <div>
                                     <span>Bairro</span>
-                                    <strong>Centro</strong>
+                                    <strong id="detalhe-bairro">---</strong>
                                 </div>
 
                             </div>
@@ -236,49 +230,15 @@
 
                         </div>
 
-
-                        <div class="product-order">
-
-                            <div class="product-order-icon">
-                                <i class="fa-solid fa-fire-flame-simple"></i>
-                            </div>
-
-                            <div class="product-order-info">
-                                <strong>Botijão de Gás 13kg</strong>
-                                <span>Quantidade: 2</span>
-                            </div>
-
-                            <strong class="product-order-price">
-                                R$ 110,00
-                            </strong>
-
+                        <div id="detalhe-lista-produtos">
                         </div>
-
-
-                        <div class="product-order">
-
-                            <div class="product-order-icon">
-                                <i class="fa-solid fa-droplet"></i>
-                            </div>
-
-                            <div class="product-order-info">
-                                <strong>Água Mineral 20L</strong>
-                                <span>Quantidade: 1</span>
-                            </div>
-
-                            <strong class="product-order-price">
-                                R$ 10,00
-                            </strong>
-
-                        </div>
-
 
                         <div class="order-total">
 
                             <span>Total do pedido</span>
 
-                            <strong>
-                                R$ 120,00
+                            <strong id="detalhe-total-pedido">
+                                R$ 0,00
                             </strong>
 
                         </div>
@@ -305,7 +265,7 @@
 
                                 <div>
                                     <span>Forma de pagamento</span>
-                                    <strong>Dinheiro</strong>
+                                    <strong id="detalhe-pagamento">---</strong>
                                 </div>
 
                             </div>
@@ -324,8 +284,8 @@
                                 </div>
                             </div>
 
-                            <div class="order-observation">
-                                Entregar, se possível, após as 18h.
+                            <div class="order-observation" id="detalhe-observacao">
+                                ---
                             </div>
 
                         </div>
@@ -350,69 +310,69 @@
 
                         <div class="status-control">
 
-                            <select>
-                                <option>Em preparação</option>
-                                <option>A caminho</option>
-                                <option>Entregue</option>
-                                <option>Cancelado</option>
+                            <select id="detalhe-select-status" name="status">
+                                <option value="Em preparação">Em preparação</option>
+                                <option value="A caminho">A caminho</option>
+                                <option value="Entregue">Entregue</option>
+                                <option value="Cancelado">Cancelado</option>
                             </select>
 
-                            <button type="button">
+                            <button type="button" id="detalhe-btn-status">
                                 <i class="fa-solid fa-check"></i>
                                 Atualizar status
                             </button>
 
                         </div>
 
-                                    <!-- HISTÓRICO VISUAL DO PEDIDO -->
+                        <!-- HISTÓRICO VISUAL DO PEDIDO -->
 
-                            <div class="order-timeline">
+                        <div class="order-timeline">
 
-                                <div class="timeline-item completed">
-                                    <div class="timeline-icon">
-                                        <i class="fa-solid fa-check"></i>
-                                    </div>
-
-                                    <div class="timeline-content">
-                                        <strong>Pedido recebido</strong>
-                                        <span>O pedido foi registrado com sucesso.</span>
-                                    </div>
+                            <div class="timeline-item completed">
+                                <div class="timeline-icon">
+                                    <i class="fa-solid fa-check"></i>
                                 </div>
 
-                                <div class="timeline-item current">
-                                    <div class="timeline-icon">
-                                        <i class="fa-solid fa-box"></i>
-                                    </div>
-
-                                    <div class="timeline-content">
-                                        <strong>Em preparação</strong>
-                                        <span>O depósito está preparando o pedido.</span>
-                                    </div>
+                                <div class="timeline-content">
+                                    <strong>Pedido recebido</strong>
+                                    <span>O pedido foi registrado com sucesso.</span>
                                 </div>
-
-                                <div class="timeline-item">
-                                    <div class="timeline-icon">
-                                        <i class="fa-solid fa-truck"></i>
-                                    </div>
-
-                                    <div class="timeline-content">
-                                        <strong>A caminho</strong>
-                                        <span>O entregador saiu para realizar a entrega.</span>
-                                    </div>
-                                </div>
-
-                                <div class="timeline-item">
-                                    <div class="timeline-icon">
-                                        <i class="fa-solid fa-house-circle-check"></i>
-                                    </div>
-
-                                    <div class="timeline-content">
-                                        <strong>Entregue</strong>
-                                        <span>O pedido foi entregue ao cliente.</span>
-                                    </div>
-                                </div>
-
                             </div>
+
+                            <div class="timeline-item current">
+                                <div class="timeline-icon">
+                                    <i class="fa-solid fa-box"></i>
+                                </div>
+
+                                <div class="timeline-content">
+                                    <strong>Em preparação</strong>
+                                    <span>O depósito está preparando o pedido.</span>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-icon">
+                                    <i class="fa-solid fa-truck"></i>
+                                </div>
+
+                                <div class="timeline-content">
+                                    <strong>A caminho</strong>
+                                    <span>O entregador saiu para realizar a entrega.</span>
+                                </div>
+                            </div>
+
+                            <div class="timeline-item">
+                                <div class="timeline-icon">
+                                    <i class="fa-solid fa-house-circle-check"></i>
+                                </div>
+
+                                <div class="timeline-content">
+                                    <strong>Entregue</strong>
+                                    <span>O pedido foi entregue ao cliente.</span>
+                                </div>
+                            </div>
+
+                        </div>
 
 
 
@@ -425,8 +385,8 @@
         </main>
 
     </div>
-    
-        <script src="{% static 'js/detalhes-pedido.js' %}"></script>
+
+    <script src="{% static 'js/detalhes-pedido.js' %}"></script>
 
 </body>
 

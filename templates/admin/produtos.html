@@ -1,8 +1,8 @@
-
 {% load static %}
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,364 +16,234 @@
 
 <body>
 
-<div class="admin-container">
+    <div class="admin-container">
 
-    <aside class="sidebar">
-        <div class="sidebar-logo">
-            <img src="{% static 'images/image.png' %}" alt="BomGás">
-        </div>
-
-        <div class="admin-info">
-            <div class="admin-avatar">
-                <i class="fa-solid fa-user"></i>
+        <aside class="sidebar">
+            <div class="sidebar-logo">
+                <img src="{% static 'images/image.png' %}" alt="BomGás">
             </div>
-            <div>
-                <strong>Administrador</strong>
-                <span>Painel BomGás</span>
-            </div>
-        </div>
 
-        <nav class="sidebar-menu">
-            <a href="{% url 'admin_dashboard' %}" class="menu-item">
-                <i class="fa-solid fa-house"></i>
-                <span>Dashboard</span>
-            </a>
-
-            <a href="{% url 'admin_pedidos' %}" class="menu-item">
-                <i class="fa-solid fa-box"></i>
-                <span>Pedidos</span>
-                <span class="menu-badge">3</span>
-            </a>
-
-            <a href="{% url 'admin_clientes' %}" class="menu-item">
-                <i class="fa-solid fa-users"></i>
-                <span>Clientes</span>
-            </a>
-
-            <a href="{% url 'admin_produtos' %}" class="menu-item active">
-                <i class="fa-solid fa-cart-shopping"></i>
-                <span>Produtos</span>
-            </a>
-
-            <a href="#" class="menu-item">
-                <i class="fa-solid fa-chart-line"></i>
-                <span>Relatórios</span>
-            </a>
-
-            <a href="#" class="menu-item">
-                <i class="fa-solid fa-gear"></i>
-                <span>Configurações</span>
-            </a>
-        </nav>
-
-        <div class="sidebar-bottom">
-            <a href="{% url 'inicio' %}" class="menu-item logout">
-                <i class="fa-solid fa-right-from-bracket"></i>
-                <span>Sair</span>
-            </a>
-        </div>
-    </aside>
-
-    <main class="main-content">
-
-        <header class="topbar">
-            <div class="topbar-title">
-                <button class="mobile-menu" type="button" aria-label="Abrir menu">
-                    <i class="fa-solid fa-bars"></i>
-                </button>
-
+            <div class="admin-info">
+                <div class="admin-avatar">
+                    <i class="fa-solid fa-user"></i>
+                </div>
                 <div>
-                    <h1>Produtos</h1>
-                    <p>Consulte e gerencie os produtos da BomGás</p>
+                    <strong>Administrador</strong>
+                    <span>Painel BomGás</span>
                 </div>
             </div>
 
-            <div class="topbar-actions">
-                <button class="notification-button" type="button" aria-label="Notificações">
-                    <i class="fa-regular fa-bell"></i>
-                    <span class="notification-dot"></span>
-                </button>
+            <nav class="sidebar-menu">
+                <a href="{% url 'admin_dashboard' %}" class="menu-item">
+                    <i class="fa-solid fa-house"></i>
+                    <span>Dashboard</span>
+                </a>
 
-                <div class="topbar-user">
-                    <div class="user-avatar">
-                        <i class="fa-solid fa-user"></i>
-                    </div>
-                    <div class="topbar-user-info">
-                        <strong>Administrador</strong>
-                        <span>Online</span>
-                    </div>
-                </div>
+                <a href="{% url 'admin_pedidos' %}" class="menu-item">
+                    <i class="fa-solid fa-box"></i>
+                    <span>Pedidos</span>
+                    <span class="menu-badge" id="badge-pedidos">0</span>
+                </a>
+
+                <a href="{% url 'admin_produtos' %}" class="menu-item active">
+                    <i class="fa-solid fa-cart-shopping"></i>
+                    <span>Produtos</span>
+                </a>
+
+                <a href="{% url 'admin_clientes' %}" class="menu-item">
+                    <i class="fa-solid fa-users"></i>
+                    <span>Clientes</span>
+                </a>
+
+                <a href="{% url 'admin_configuracoes' %}" class="menu-item">
+                    <i class="fa-solid fa-gear"></i>
+                    <span>Configurações</span>
+                </a>
+            </nav>
+
+            <div class="sidebar-bottom">
+                <a href="{% url 'sair' %}" class="menu-item logout">
+                    <i class="fa-solid fa-right-from-bracket"></i>
+                    <span>Sair</span>
+                </a>
             </div>
-        </header>
+        </aside>
 
-        <section class="products-content">
+        <main class="main-content">
 
-            <div class="products-heading">
-                <div>
-                    <h2>Catálogo de produtos</h2>
-                    <p>Visualize os produtos disponíveis para venda.</p>
-                </div>
+            <header class="topbar">
+                <div class="topbar-title">
+                    <button class="mobile-menu" type="button" aria-label="Abrir menu">
+                        <i class="fa-solid fa-bars"></i>
+                    </button>
 
-                <button class="btn-add-product" type="button" id="btn-novo-produto">
-                    <i class="fa-solid fa-plus"></i>
-                    Novo produto
-                </button>
-
-            </div>
-
-            <div class="products-stats">
-
-                <div class="product-stat-card">
-                    <div class="product-stat-icon blue">
-                        <i class="fa-solid fa-box"></i>
-                    </div>
                     <div>
-                        <span>Total de produtos</span>
-                        <strong id="total-produtos">4</strong>
+                        <h1>Produtos</h1>
+                        <p>Consulte e gerencie os produtos da BomGás</p>
                     </div>
                 </div>
 
-                <div class="product-stat-card">
-                    <div class="product-stat-icon green">
-                        <i class="fa-solid fa-circle-check"></i>
+                <div class="topbar-actions">
+                    <button class="notification-button" type="button" aria-label="Notificações">
+                        <i class="fa-regular fa-bell"></i>
+                        <span class="notification-dot"></span>
+                    </button>
+
+                    <div class="topbar-user">
+                        <div class="user-avatar">
+                            <i class="fa-solid fa-user"></i>
+                        </div>
+                        <div class="topbar-user-info">
+                            <strong>Administrador</strong>
+                            <span>Online</span>
+                        </div>
                     </div>
+                </div>
+            </header>
+
+            <section class="products-content">
+
+                <div class="products-heading">
                     <div>
-                        <span>Disponíveis</span>
-                        <strong>4</strong>
+                        <h2>Catálogo de produtos</h2>
+                        <p>Visualize os produtos disponíveis para venda.</p>
                     </div>
+
+                    <button class="btn-add-product" type="button" id="btn-novo-produto">
+                        <i class="fa-solid fa-plus"></i>
+                        Novo produto
+                    </button>
+
                 </div>
 
-                <div class="product-stat-card">
-                    <div class="product-stat-icon orange">
-                        <i class="fa-solid fa-fire"></i>
+                <div class="products-stats">
+
+                    <div class="product-stat-card">
+                        <div class="product-stat-icon blue">
+                            <i class="fa-solid fa-box"></i>
+                        </div>
+                        <div>
+                            <span>Total de produtos</span>
+                            <strong id="total-produtos">0</strong>
+                        </div>
                     </div>
-                    <div>
-                        <span>Categoria principal</span>
-                        <strong>Gás</strong>
+
+                    <div class="product-stat-card">
+                        <div class="product-stat-icon green">
+                            <i class="fa-solid fa-circle-check"></i>
+                        </div>
+                        <div>
+                            <span>Disponíveis</span>
+                            <strong id="total-disponiveis">0</strong>
+                        </div>
                     </div>
+
+                    <div class="product-stat-card">
+                        <div class="product-stat-icon orange">
+                            <i class="fa-solid fa-fire"></i>
+                        </div>
+                        <div>
+                            <span>Categoria principal</span>
+                            <strong id="categoria-principal">-</strong>
+                        </div>
+                    </div>
+
                 </div>
 
-            </div>
+                <div class="products-toolbar">
+                    <div class="products-search">
+                        <i class="fa-solid fa-magnifying-glass"></i>
+                        <input type="text" id="buscar-produto" name="busca" placeholder="Buscar produto...">
+                    </div>
 
-            <div class="products-toolbar">
-                <div class="products-search">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <input type="text" id="buscar-produto"
-                           placeholder="Buscar produto...">
+                    <select id="filtro-produtos" name="categoria">
+                        <option value="todos">Todas as categorias</option>
+                        <option value="gas">Gás</option>
+                        <option value="agua">Água</option>
+                        <option value="carvao">Carvão</option>
+                    </select>
                 </div>
 
-                <select id="filtro-produtos">
-                    <option value="todos">Todas as categorias</option>
-                    <option value="gas">Gás</option>
-                    <option value="agua">Água</option>
-                    <option value="carvao">Carvão</option>
-                </select>
-            </div>
+                <div class="products-grid" id="lista-produtos">
+                </div>
 
-            <div class="products-grid" id="lista-produtos">
+                <p class="products-empty" id="nenhum-produto" hidden>
+                    Nenhum produto encontrado.
+                </p>
 
-                <article class="product-card" data-nome="Botijão de gás P13" data-categoria="gas">
-                    <div class="product-image gas-image">
-                        <i class="fa-solid fa-fire-flame-curved"></i>
-                        <span class="product-status">Disponível</span>
-                    </div>
-                    <div class="product-card-body">
-                        <span class="product-category">Gás</span>
-                        <h3>Botijão de Gás P13</h3>
-                        <p>Botijão de 13 kg para uso doméstico.</p>
-                        <div class="product-card-footer">
-                            <strong>R$ 110,00</strong>
-                            <button type="button" class="btn-product-details"
-                                    data-produto="Botijão de Gás P13"
-                                    data-categoria="Gás"
-                                    data-preco="R$ 110,00"
-                                    data-descricao="Botijão de 13 kg para uso doméstico."
-                                    aria-label="Ver detalhes do Botijão de Gás P13">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-                             <button type="button"
-                class="btn-product-delete"
-                aria-label="Excluir Botijão de Gás P13"
-                title="Excluir produto">
-            <i class="fa-solid fa-trash"></i>
-        </button>
-                        </div>
-                    </div>
-                </article>
+            </section>
 
-                <article class="product-card" data-nome="Botijão de gás P45" data-categoria="gas">
-                    <div class="product-image gas-image">
-                        <i class="fa-solid fa-fire-flame-curved"></i>
-                        <span class="product-status">Disponível</span>
-                    </div>
-                    <div class="product-card-body">
-                        <span class="product-category">Gás</span>
-                        <h3>Botijão de Gás P45</h3>
-                        <p>Botijão de 45 kg para maior consumo.</p>
-                        <div class="product-card-footer">
-                            <strong>R$ 380,00</strong>
-                            <button type="button" class="btn-product-details"
-                                    data-produto="Botijão de Gás P45"
-                                    data-categoria="Gás"
-                                    data-preco="R$ 380,00"
-                                    data-descricao="Botijão de 45 kg para maior consumo."
-                                    aria-label="Ver detalhes do Botijão de Gás P45">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-                             <button type="button"
-                class="btn-product-delete"
-                aria-label="Excluir Botijão de Gás P45"
-                title="Excluir produto">
-            <i class="fa-solid fa-trash"></i>
-        </button>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="product-card" data-nome="Água mineral 20 litros" data-categoria="agua">
-                    <div class="product-image water-image">
-                        <i class="fa-solid fa-droplet"></i>
-                        <span class="product-status">Disponível</span>
-                    </div>
-                    <div class="product-card-body">
-                        <span class="product-category">Água</span>
-                        <h3>Água Mineral 20L</h3>
-                        <p>Galão de água mineral de 20 litros.</p>
-                        <div class="product-card-footer">
-                            <strong>R$ 15,00</strong>
-                            <button type="button" class="btn-product-details"
-                                    data-produto="Água Mineral 20L"
-                                    data-categoria="Água"
-                                    data-preco="R$ 15,00"
-                                    data-descricao="Galão de água mineral de 20 litros."
-                                    aria-label="Ver detalhes da Água Mineral 20L">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-                             <button type="button"
-                class="btn-product-delete"
-                aria-label="Excluir agua mineral"
-                title="Excluir produto">
-            <i class="fa-solid fa-trash"></i>
-        </button>
-                        </div>
-                    </div>
-                </article>
-
-                <article class="product-card" data-nome="Carvão vegetal 5 kg" data-categoria="carvao">
-                    <div class="product-image charcoal-image">
-                        <i class="fa-solid fa-cubes-stacked"></i>
-                        <span class="product-status">Disponível</span>
-                    </div>
-                    <div class="product-card-body">
-                        <span class="product-category">Carvão</span>
-                        <h3>Carvão Vegetal 5 kg</h3>
-                        <p>Pacote de carvão para churrasco.</p>
-                        <div class="product-card-footer">
-                            <strong>R$ 25,00</strong>
-                            <button type="button" class="btn-product-details"
-                                    data-produto="Carvão Vegetal 5 kg"
-                                    data-categoria="Carvão"
-                                    data-preco="R$ 25,00"
-                                    data-descricao="Pacote de carvão para churrasco."
-                                    aria-label="Ver detalhes do Carvão Vegetal 5 kg">
-                                <i class="fa-solid fa-eye"></i>
-                            </button>
-                             <button type="button"
-                class="btn-product-delete"
-                aria-label="Excluir carvão"
-                title="Excluir produto">
-            <i class="fa-solid fa-trash"></i>
-        </button>
-                        </div>
-                    </div>
-                </article>
-
-            </div>
-
-            <p class="products-empty" id="nenhum-produto" hidden>
-                Nenhum produto encontrado.
-            </p>
-
-            <p class="products-demo-note">
-                <i class="fa-solid fa-circle-info"></i>
-                Produtos e preços demonstrativos. O cadastro e a edição serão implementados depois.
-            </p>
-
-        </section>
-
-    </main>
-</div>
-
-<div class="product-modal-overlay" id="modal-produto" hidden>
-    <div class="product-modal" role="dialog" aria-modal="true"
-         aria-labelledby="modal-produto-titulo">
-
-        <div class="product-modal-header">
-            <h2 id="modal-produto-titulo">Detalhes do produto</h2>
-            <button type="button" id="fechar-modal-produto" aria-label="Fechar">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
-
-        <div class="product-modal-body">
-            <p><strong>Produto:</strong> <span id="modal-produto-nome"></span></p>
-            <p><strong>Categoria:</strong> <span id="modal-produto-categoria"></span></p>
-            <p><strong>Preço demonstrativo:</strong> <span id="modal-produto-preco"></span></p>
-            <p><strong>Descrição:</strong> <span id="modal-produto-descricao"></span></p>
-        </div>
-
-        <div class="product-modal-footer">
-            <button type="button" id="fechar-modal-produto-secundario">Fechar</button>
-        </div>
+        </main>
     </div>
-</div>
 
-<!-- Modal de cadastro e edição -->
-<div class="product-modal-overlay" id="modal-form-produto" hidden>
-    <div class="product-modal" role="dialog" aria-modal="true"
-         aria-labelledby="titulo-form-produto">
+    <div class="product-modal-overlay" id="modal-produto" hidden>
+        <div class="product-modal" role="dialog" aria-modal="true" aria-labelledby="modal-produto-titulo">
 
-        <div class="product-modal-header">
-            <h2 id="titulo-form-produto">Novo produto</h2>
-            <button type="button" id="fechar-form-produto" aria-label="Fechar">
-                <i class="fa-solid fa-xmark"></i>
-            </button>
-        </div>
+            <div class="product-modal-header">
+                <h2 id="modal-produto-titulo">Detalhes do produto</h2>
+                <button type="button" id="fechar-modal-produto" aria-label="Fechar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
 
-        <form id="form-produto">
             <div class="product-modal-body">
-
-                <label for="form-nome-produto">Nome do produto</label>
-                <input type="text" id="form-nome-produto"
-                       placeholder="Ex.: Botijão de Gás P13" required>
-
-                <label for="form-categoria-produto">Categoria</label>
-                <select id="form-categoria-produto" required>
-                    <option value="">Selecione uma categoria</option>
-                    <option value="gas">Gás</option>
-                    <option value="agua">Água</option>
-                    <option value="carvao">Carvão</option>
-                </select>
-
-                <label for="form-preco-produto">Preço (R$)</label>
-                <input type="number" id="form-preco-produto"
-                       min="0.01" step="0.01" placeholder="110.00" required>
-
-                <label for="form-descricao-produto">Descrição</label>
-                <textarea id="form-descricao-produto" rows="3"
-                          placeholder="Descrição do produto" required></textarea>
-
+                <p><strong>Produto:</strong> <span id="modal-produto-nome"></span></p>
+                <p><strong>Categoria:</strong> <span id="modal-produto-categoria"></span></p>
+                <p><strong>Preço:</strong> <span id="modal-produto-preco"></span></p>
+                <p><strong>Descrição:</strong> <span id="modal-produto-descricao"></span></p>
             </div>
 
             <div class="product-modal-footer">
-                <button type="button" id="cancelar-form-produto">Cancelar</button>
-                <button type="submit" id="salvar-form-produto">Salvar produto</button>
+                <button type="button" id="editar-modal-produto">Editar</button>
+                <button type="button" id="fechar-modal-produto-secundario">Fechar</button>
             </div>
-        </form>
+        </div>
     </div>
-</div>
 
-<script src="{% static 'js/produtos.js' %}"></script>
+    <!-- Modal de cadastro e edição -->
+    <div class="product-modal-overlay" id="modal-form-produto" hidden>
+        <div class="product-modal" role="dialog" aria-modal="true" aria-labelledby="titulo-form-produto">
+
+            <div class="product-modal-header">
+                <h2 id="titulo-form-produto">Novo produto</h2>
+                <button type="button" id="fechar-form-produto" aria-label="Fechar">
+                    <i class="fa-solid fa-xmark"></i>
+                </button>
+            </div>
+
+            <form id="form-produto">
+                <div class="product-modal-body">
+
+                    <label for="form-nome-produto">Nome do produto</label>
+                    <input type="text" id="form-nome-produto" name="nome" placeholder="Ex.: Botijão de Gás P13" required>
+
+                    <label for="form-categoria-produto">Categoria</label>
+                    <select id="form-categoria-produto" name="categoria" required>
+                        <option value="">Selecione uma categoria</option>
+                        <option value="gas">Gás</option>
+                        <option value="agua">Água</option>
+                        <option value="carvao">Carvão</option>
+                    </select>
+
+                    <label for="form-preco-produto">Preço (R$)</label>
+                    <input type="number" id="form-preco-produto" name="preco" min="0.01" step="0.01" placeholder="110.00" required>
+
+                    <label for="form-descricao-produto">Descrição</label>
+                    <textarea id="form-descricao-produto" name="descricao" rows="3" placeholder="Descrição do produto"
+                        required></textarea>
+
+                </div>
+
+                <div class="product-modal-footer">
+                    <button type="button" id="cancelar-form-produto">Cancelar</button>
+                    <button type="submit" id="salvar-form-produto">Salvar produto</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <script src="{% static 'js/produtos.js' %}"></script>
 
 </body>
+
 </html>

@@ -65,65 +65,61 @@ body {
 
 /* BANNER PRINCIPAL */
 
+.banner-secao {
+    max-width: 1360px;
+    margin: 0 auto;
+    padding: 20px 24px 0;
+}
+
 .banner {
-    min-height:650px;
-
-
-    background-image: url("../images/banner-bomgas.png");
-    background-size: 100% auto;
-    background-position: center;
-    background-repeat: no-repeat;
-
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-
-    padding: 60px 20px;
-
     position: relative;
-
-    border-radius: 0 0 20px 20px;
-    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.18);
+    border: 4px solid #f58220;
+    border-radius: 16px;
+    box-shadow: 0 6px 22px rgba(0, 0, 0, 0.18);
     overflow: hidden;
+    background: #04327a;
+}
 
-    border: 4px solid #f58220   ;
-    border-radius: 15px;
+.banner-img {
+    width: 100%;
+    height: auto;
+    display: block;
 }
 
 .banner-conteudo {
     max-width: 750px;
-    color: #00b7ff;
 }
 
-.banner-conteudo h1 {
-    font-size: 48px;
-    margin-bottom: 20px;
-}
-
-.banner-conteudo p {
-    font-size: 20px;
-    line-height: 1.6;
-    margin-bottom: 30px;
+.banner-link-pedido {
+    text-decoration: none;
 }
 
 .banner-conteudo button {
     position: absolute;
-    left: 17%;
-    bottom: 200px;
+    left: 11%;
+    bottom: 28.5%;
 
-    background: #f8f8f8;
-    color: #000000;
-    border: none;
-    padding: 14px 32px;
-    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+
+    background: #f58220;
+    color: #ffffff;
+    border: 2px solid #ffffff;
+    padding: 13px 30px;
+    border-radius: 10px;
     font-size: 17px;
     font-weight: bold;
     cursor: pointer;
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s ease, background 0.2s ease, box-shadow 0.2s ease;
 }
 
 .banner-conteudo button:hover {
-    transform: scale(1.05);
+    background: #e06d0b;
+    transform: translateY(-2px) scale(1.03);
+    box-shadow: 0 8px 22px rgba(0, 0, 0, 0.36);
 }
 
 
@@ -142,7 +138,7 @@ body {
     color: #0c0c0c;
 }
 
-.produtos > p {
+.produtos>p {
     margin-bottom: 40px;
     color: #666;
 }
@@ -180,8 +176,13 @@ body {
 }
 
 .produto strong {
-    color: #070707; 
-    
+    color: #070707;
+}
+
+.produto img {
+    max-width: 100%;
+    height: 200px;
+    object-fit: contain;
 }
 
 
@@ -223,6 +224,16 @@ footer p {
 
 /* RESPONSIVIDADE */
 
+@media (max-width: 1024px) {
+
+    .banner-conteudo button {
+        padding: 10px 22px;
+        font-size: 15px;
+        bottom: 27.5%;
+    }
+
+}
+
 @media (max-width: 768px) {
 
     .cabecalho {
@@ -237,16 +248,37 @@ footer p {
         justify-content: center;
     }
 
+    .banner-secao {
+        padding: 15px 16px 0;
+    }
+
     .banner {
-        min-height: 350px;
-        padding: 40px 20px;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        background: transparent;
+        overflow: visible;
     }
 
-    .banner-conteudo h1 {
-        font-size: 34px;
+    .banner-img {
+        border: 3px solid #f58220;
+        border-radius: 12px;
+        box-shadow: 0 5px 16px rgba(0, 0, 0, 0.18);
     }
 
-    .banner-conteudo p {
+    .banner-conteudo {
+        max-width: 100%;
+        margin-top: 15px;
+    }
+
+    .banner-link-pedido {
+        display: block;
+    }
+
+    .banner-conteudo button {
+        position: static;
+        width: 100%;
+        padding: 15px 24px;
         font-size: 17px;
     }
 
@@ -294,9 +326,9 @@ footer p {
 /* CARRINHO */
 
 #lista-carrinho {
-    max-width:600px;
+    max-width: 600px;
     margin: 30px auto;
-    
+
 }
 
 .item-carrinho {
@@ -422,7 +454,7 @@ footer p {
     text-align: center;
 }
 
-.finalizar-pedido > p {
+.finalizar-pedido>p {
     color: #666;
     text-align: center;
     margin-bottom: 35px;
@@ -465,7 +497,7 @@ footer p {
     width: 100%;
     padding: 14px;
     margin-top: 10px;
-    background: #0c10f3 ;
+    background: #0c10f3;
     color: white;
     border: none;
     border-radius: 8px;
@@ -615,4 +647,134 @@ footer p {
 
 .detalhes-pedido p {
     margin: 8px 0;
+}
+
+
+/* SESSÃO DO CLIENTE E TELA DE LOGIN */
+
+.cabecalho nav .usuario-sessao {
+    background: rgba(255, 255, 255, 0.25);
+    font-weight: 600;
+}
+
+.cabecalho nav .usuario-sessao:hover {
+    background: rgba(255, 255, 255, 0.4);
+}
+
+body.pagina-login {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+}
+
+body.pagina-login main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+}
+
+.login-container {
+    width: 100%;
+    max-width: 480px;
+    padding: 38px 35px;
+    background: #ffffff;
+    border-radius: 14px;
+    box-shadow: 0 6px 24px rgba(0, 0, 0, 0.14);
+}
+
+.login-container h1 {
+    color: #0c10f3;
+    font-size: 30px;
+    margin-bottom: 8px;
+    text-align: center;
+}
+
+.login-container>p {
+    color: #666;
+    text-align: center;
+    margin-bottom: 24px;
+    font-size: 15px;
+}
+
+.login-abas {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    padding: 5px;
+    margin-bottom: 24px;
+    background: #f0f3ff;
+    border-radius: 10px;
+}
+
+.login-aba-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 11px 14px;
+    border: none;
+    border-radius: 8px;
+    background: transparent;
+    color: #4b5563;
+    font-size: 14px;
+    font-weight: bold;
+    font-family: inherit;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.login-aba-btn:hover {
+    color: #0c10f3;
+}
+
+.login-aba-btn.ativa {
+    background: #0c10f3;
+    color: #ffffff;
+    box-shadow: 0 3px 10px rgba(12, 16, 243, 0.25);
+}
+
+.login-painel[hidden] {
+    display: none !important;
+}
+
+.login-descricao {
+    color: #555;
+    font-size: 14px;
+    line-height: 1.5;
+    margin-bottom: 18px;
+    text-align: center;
+}
+
+.login-alerta {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 12px 14px;
+    margin-bottom: 18px;
+    border-radius: 8px;
+    font-size: 14px;
+    line-height: 1.45;
+}
+
+.login-alerta.erro {
+    background: #fff0f0;
+    border: 1px solid #fecaca;
+    color: #b91c1c;
+}
+
+.login-alerta i {
+    margin-top: 2px;
+    flex-shrink: 0;
+}
+
+@media (max-width: 768px) {
+    .login-container {
+        padding: 28px 20px;
+    }
+
+    .login-abas {
+        grid-template-columns: 1fr;
+    }
 }

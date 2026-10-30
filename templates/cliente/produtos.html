@@ -2,6 +2,7 @@
 
 <!DOCTYPE html>
 <html lang="pt-br">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -9,43 +10,50 @@
     <title>Produtos - BomGás</title>
 
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
-     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
 
 <body>
 
     <header class="cabecalho">
         <div class="logo">
-           <img src="/static/images/image.png" width="200" height="70" alt="Logo">
+            <img src="{% static 'images/image.png' %}" width="200" height="70" alt="Logo">
         </div>
 
-       <nav>
-    <a href="/">
-        <i class="fa-solid fa-house"></i>
-        Início
-    </a>
+        <nav>
+            <a href="{% url 'inicio' %}">
+                <i class="fa-solid fa-house"></i>
+                Início
+            </a>
 
-    <a href="/produtos/">
-        <i class="fa-solid fa-fire-flame-simple"></i>
-        Produtos
-    </a>
+            <a href="{% url 'produtos' %}">
+                <i class="fa-solid fa-fire-flame-simple"></i>
+                Produtos
+            </a>
 
-    <a href="/carrinho/" class="carrinho">
-        <i class="fa-solid fa-cart-shopping"></i>
-        Meu Pedido
-        <span id="contador-carrinho">0</span>
-    </a>
+            <a href="{% url 'carrinho' %}" class="carrinho">
+                <i class="fa-solid fa-cart-shopping"></i>
+                Meu Pedido
+                <span id="contador-carrinho">0</span>
+            </a>
 
-     <a href="/meus_pedidos.html">
-        <i class="fa-solid fa-clipboard-list"></i>
-        Meus Pedidos
-    </a>
+            <a href="{% url 'meus_pedidos' %}">
+                <i class="fa-solid fa-clipboard-list"></i>
+                Meus Pedidos
+            </a>
 
-    <a href="#">
-        <i class="fa-solid fa-user"></i>
-        Entrar
-    </a>
-</nav>
+            {% if cliente_sessao %}
+            <a href="{% url 'sair' %}" class="usuario-sessao">
+                <i class="fa-solid fa-user"></i>
+                Olá, {{ cliente_sessao.primeiro_nome }} (Sair)
+            </a>
+            {% else %}
+            <a href="{% url 'entrar' %}">
+                <i class="fa-solid fa-user"></i>
+                Entrar
+            </a>
+            {% endif %}
+        </nav>
     </header>
 
 
@@ -53,80 +61,46 @@
 
         <section class="produtos">
 
-    <h1>Escolha seus produtos</h1>
+            <h1>Escolha seus produtos</h1>
 
-    <strong><p>Selecione o que deseja adicionar ao carrinho.</p></strong>
-    <p></p>
+            <strong>
+                <p>Selecione o que deseja adicionar ao carrinho.</p>
+            </strong>
+            <p></p>
 
-    <div class="produtos-lista">
+            <div class="produtos-lista">
+                {% for produto in produtos %}
+                <div class="produto" data-id="{{ produto.id }}">
+                    <h3>{{ produto.nome }}</h3>
+                    {% if produto.categoria == 'agua' %}
+                    <img src="{% static 'images/agua.webp' %}" width="300" height="200" alt="{{ produto.nome }}">
+                    {% elif produto.categoria == 'carvao' %}
+                    <img src="{% static 'images/carvao.webp' %}" width="200" height="200" alt="{{ produto.nome }}">
+                    {% else %}
+                    <img src="{% static 'images/botijao2.webp' %}" width="200" height="200" alt="{{ produto.nome }}">
+                    {% endif %}
+                    <p>{{ produto.descricao|default:"" }}</p>
 
-        <div class="produto">
-    <h3>🔥 Botijão de Gás</h3>
-    <img src="/static/images/botijao2.webp"width="200" height="200  " alt="botijao">
-    <p>Botijão de gás de cozinha 13kg.</p>
-
-    <strong>R$ 120,00</strong>
-
-            <div class="quantidade">
-                            <button type="button" onclick="alterarQuantidade(this, -1)">-</button>
-
-                            <span>1</span>
-
-                            <button type="button" onclick="alterarQuantidade(this, 1)">+</button>
-                        </div>
-
-
-            <button class="btn-adicionar" onclick="adicionarPedido(this)">
-                Adicionar ao pedido
-            </button>
-        </div>
-
-
-        <div class="produto">
-            <h3>💧 Água Mineral</h3>
-            <img src="/static/images/agua.webp"width="300" height="200  " alt="agua">
-            <p>Galão de água mineral 15 litros.</p>
-
-            <strong>R$ 30,00</strong>
+                    <p><strong>R$ {{ produto.preco_br }}</strong></p>
 
                     <div class="quantidade">
-                            <button type="button" onclick="alterarQuantidade(this, -1)">-</button>
+                        <button type="button" onclick="alterarQuantidade(this, -1)">-</button>
 
-                            <span>1</span>
+                        <span>1</span>
 
-                            <button type="button" onclick="alterarQuantidade(this, 1)">+</button>
-                        </div>
-
-                            <button class="btn-adicionar" onclick="adicionarPedido(this)">
-                                Adicionar ao pedido
-                            </button>
+                        <button type="button" onclick="alterarQuantidade(this, 1)">+</button>
                     </div>
 
-
-        <div class="produto">
-            <h3>🪵 Carvão</h3>
-
-            <p>Saco de carvão para churrasco 20kg.</p>
-             <img src="/static/images/carvao.webp"width="200" height="200  " alt="carvao">
-            <p><strong>R$ 70,00</strong></p>
-
-           <div class="quantidade">
-                            <button type="button" onclick="alterarQuantidade(this, -1)">-</button>
-
-                            <span>1</span>
-
-                            <button type="button" onclick="alterarQuantidade(this, 1)">+</button>
-                        </div>
-
-
-                    <button class="btn-adicionar" onclick="adicionarPedido(this)">
+                    <button type="button" class="btn-adicionar" onclick="adicionarPedido(this)">
                         Adicionar ao pedido
                     </button>
-        </div>
+                </div>
+                {% empty %}
+                <p>Nenhum produto disponível no momento.</p>
+                {% endfor %}
+            </div>
 
-    </div>
-
-</section>
+        </section>
     </main>
 
 
@@ -135,8 +109,9 @@
         <p>© 2026 BomGás - Gás, água e carvão na sua porta.</p>
 
     </footer>
-        
-    <script src="{% static 'js/script.js' %}"></script> 
+
+    <script src="{% static 'js/script.js' %}"></script>
 
 </body>
+
 </html>

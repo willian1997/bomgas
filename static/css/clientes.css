@@ -1,4 +1,3 @@
-
 /* ==============================
    PÁGINA DE CLIENTES - BOMGÁS
 ============================== */
@@ -101,7 +100,7 @@
     background: #dcfce7;
 }
 
-.client-stat-card > div:last-child {
+.client-stat-card>div:last-child {
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -139,11 +138,35 @@
 .clients-filters .search-box {
     flex: 1;
     min-width: 180px;
+    height: 43px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 0 14px;
+    background: #f8f8f8;
+    border: 1px solid #eeeeee;
+    border-radius: 9px;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.clients-filters .search-box i {
+    color: #999;
+    font-size: 14px;
 }
 
 .clients-filters .search-box input {
     width: 100%;
     box-sizing: border-box;
+    border: none;
+    outline: none;
+    background: transparent;
+    font-family: inherit;
+    font-size: 13px;
+    color: #333;
+}
+
+.clients-filters .search-box input::placeholder {
+    color: #aaa;
 }
 
 .clients-filters select {
@@ -164,23 +187,27 @@
     box-shadow: 0 0 0 3px rgba(12, 16, 243, 0.06);
 }
 
-.clients-filters .clear-filters {
+.clients-filters .clear-filters,
+.clients-filters .btn-limpar {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 7px;
     height: 43px;
     padding: 0 14px;
-    color: #657087;
-    background: #f5f7fb;
-    border: 1px solid #e6eaf2;
+    color: #777;
+    background: #fff;
+    border: 1px solid #eeeeee;
     border-radius: 9px;
     cursor: pointer;
+    font-family: inherit;
     font-size: 12px;
+    font-weight: 600;
     transition: all 0.2s ease;
 }
 
-.clients-filters .clear-filters:hover {
+.clients-filters .clear-filters:hover,
+.clients-filters .btn-limpar:hover {
     color: #0c10f3;
     background: #eef0ff;
 }
@@ -199,11 +226,7 @@
 .client-row {
     display: grid;
     grid-template-columns:
-        minmax(175px, 1.35fr)
-        minmax(145px, 1fr)
-        minmax(150px, 1.1fr)
-        minmax(75px, 0.55fr)
-        minmax(100px, 0.7fr);
+        minmax(175px, 1.35fr) minmax(145px, 1fr) minmax(150px, 1.1fr) minmax(75px, 0.55fr) minmax(100px, 0.7fr);
     align-items: center;
     gap: 14px;
     padding: 17px 20px;
@@ -223,6 +246,10 @@
     min-height: 88px;
     border-bottom: 1px solid #f0f2f7;
     transition: background 0.2s ease;
+}
+
+.client-row[hidden] {
+    display: none !important;
 }
 
 .client-row:last-child {
@@ -274,7 +301,7 @@
     background: #f3e8ff;
 }
 
-.client-identity > div:last-child {
+.client-identity>div:last-child {
     display: flex;
     flex-direction: column;
     gap: 5px;
@@ -397,7 +424,7 @@
     display: none;
 }
 
-.no-clients > i {
+.no-clients>i {
     margin-bottom: 5px;
     color: #c0c7d5;
     font-size: 32px;
@@ -425,14 +452,11 @@
 /* RESPONSIVIDADE */
 
 @media (max-width: 1200px) {
+
     .clients-table-header,
     .client-row {
         grid-template-columns:
-            minmax(155px, 1.3fr)
-            minmax(130px, 1fr)
-            minmax(125px, 1fr)
-            minmax(65px, 0.5fr)
-            minmax(90px, 0.7fr);
+            minmax(155px, 1.3fr) minmax(130px, 1fr) minmax(125px, 1fr) minmax(65px, 0.5fr) minmax(90px, 0.7fr);
         gap: 10px;
         padding-left: 14px;
         padding-right: 14px;
@@ -497,7 +521,8 @@
 
     .clients-filters .search-box,
     .clients-filters select,
-    .clients-filters .clear-filters {
+    .clients-filters .clear-filters,
+    .clients-filters .btn-limpar {
         width: 100%;
         min-width: 0;
         box-sizing: border-box;
